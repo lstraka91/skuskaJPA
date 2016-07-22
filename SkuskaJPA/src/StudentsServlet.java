@@ -24,18 +24,18 @@ public class StudentsServlet extends HttpServlet {
     public void init() throws ServletException {
         super.init();
 
-        GameServiceHibernateImpl gshimpl = new GameServiceHibernateImpl();
-        try {
-        	Game game = new Game();
-        	game.setGameName("hra");
-        	game.setAuthor("autor");
-        	game.setGameURL("www");
-        	game.setDateCreated(new Date());
-			gshimpl.add(game);
-		} catch (GameException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//        GameServiceHibernateImpl gshimpl = new GameServiceHibernateImpl();
+//        try {
+//        	Game game = new Game();
+//        	game.setGameName("hra");
+//        	game.setAuthor("autor");
+//        	game.setGameURL("www");
+//        	game.setDateCreated(new Date());
+//			gshimpl.add(game);
+//		} catch (GameException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
         students = new HashMap<Integer, Student>();
         students.put(1, new Student(1, "Janko", "Hrasko"));
         students.put(2, new Student(2, "Ferko", "Mrkva"));
