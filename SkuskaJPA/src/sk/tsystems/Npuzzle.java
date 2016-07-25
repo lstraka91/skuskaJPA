@@ -15,7 +15,7 @@ import sk.tsystems.stones.core.Field;
 /**
  * Servlet implementation class Npuzzle
  */
-@WebServlet("/npuzzle")
+@WebServlet("/NPuzzle")
 public class Npuzzle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

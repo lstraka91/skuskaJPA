@@ -19,7 +19,7 @@ import sk.tsystems.mines.minesweeper.core.Tile.State;
 /**
  * Servlet implementation class MinesweeperWeb
  */
-@WebServlet("/mines")
+@WebServlet("/Minesweeper")
 public class MinesweeperWeb extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	Tile tile;
@@ -32,8 +32,9 @@ public class MinesweeperWeb extends HttpServlet {
 			throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
 		response.setContentType("text/html");
-
+		out.print("<input type='hidden' name='name' value='Minesweeper'>");
 		HttpSession session = request.getSession();
+		
 		Field field = (Field) session.getAttribute("field");
 		if (field == null) {
 			field = new Field(9, 9, 10);

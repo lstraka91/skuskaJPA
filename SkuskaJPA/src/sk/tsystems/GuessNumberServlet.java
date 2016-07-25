@@ -17,7 +17,7 @@ import sk.tsystems.guessNumber.GuessNumber;
 /**
  * Servlet implementation class GuessNumber
  */
-@WebServlet("/guess")
+@WebServlet("/GuessNumber")
 public class GuessNumberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

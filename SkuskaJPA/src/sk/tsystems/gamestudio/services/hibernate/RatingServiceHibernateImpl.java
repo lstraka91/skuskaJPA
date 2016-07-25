@@ -7,7 +7,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 import sk.ness.jpa.JpaHelper;
+import sk.tsystems.gamestudio.entity.Game;
 import sk.tsystems.gamestudio.entity.Rating;
+import sk.tsystems.gamestudio.exceptions.GameException;
 import sk.tsystems.gamestudio.exceptions.RatingException;
 import sk.tsystems.gamestudio.services.RatingService;
 
@@ -46,14 +48,24 @@ public class RatingServiceHibernateImpl implements RatingService {
 
 	@Override
 	public List<Rating> findRatingForGame(String game) throws RatingException {
-
+		GameServiceHibernateImpl gsimpl = new GameServiceHibernateImpl();
+		Game gameFromName=null;
+		try {
+			gameFromName=gsimpl.getGameByName(game);
+		} catch (GameException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		JpaHelper.beginTransaction();
 		EntityManager em = JpaHelper.getEntityManager();
+		
 		JpaHelper.commitTransaction();
 		return em
 				.createQuery(
-						"Select r from Rating r JOIN r.game h where h.gameName=:gameName")
-				.setParameter("gameName", game).getResultList();
+						"Select r from Rating r JOIN r.ratingId h where h.game=:gameId")
+				.setParameter("gameId", gameFromName.getIdentGame()).getResultList();
 	}
 
 	public int selectRejting(Rating rating) {

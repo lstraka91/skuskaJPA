@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Ajax call</title>
+<link rel="stylesheet" type="text/css"       href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css"></link>
+        
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            url: "rest/students",
+        }).done(function (json) {
+            for (var i = 0; i < json.length; i++) {
+                var student = json[i];
+                $("#studentList").append($("<li>" + student.id + " " 
+                        + student.firstName + " " + student.lastName + "</li>"));
+            }
+        });
+    });
+
+
+    $(document).ready(function () {
+        $('#studentTable').DataTable({
+            columns: [
+                {data: "id"},
+                {data: "firstName"},
+                {data: "lastName"}
+            ],
+            ajax: {url: "rest/students", dataSrc: ''}
+        });
+    });
+</script>
+</head>
+<body>
+	<h1>Zoznam studentov</h1>
+	<table id="studentTable"/>
+	<br>
+	<ol id="studentList"/>
+</body>
+</html>
