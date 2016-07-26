@@ -17,6 +17,7 @@
                     <td>${game.getGameName()}
                      <td><a href="?action=play&name=${game.getGameName()}">Play</a>
                     
+                    
                 </tr>
             </c:forEach>
         </table>

@@ -68,6 +68,8 @@ public class GuessNumberServlet extends HttpServlet {
 
 		
 		out.println("<form method='get'>");
+		 out.println("<input type='hidden' name='action' value='play'>");
+		 out.println("<input type='hidden' name='name' value='GuessNumber'>");
 		out.println("Input number you think I am thinkig on:<input type='text' name='value' autofocus><br>");
 		out.println("<input type='submit'><br>");
 		out.println("</form>");

@@ -14,7 +14,7 @@
 
 	<jsp:include page="add_comment.jsp"/>
 
-
+<input type="hidden" name="name" value="Minesweeper">
 <h2>Komentare ku hre ${param.name}</h2>
    <table>
 

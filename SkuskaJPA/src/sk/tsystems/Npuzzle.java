@@ -41,10 +41,10 @@ public class Npuzzle extends HttpServlet {
 //		 session.removeAttribute("field");
 		
 		 
-		 Field field = (Field) session.getAttribute("field");
+		 Field field = (Field) session.getAttribute("fild");
 		 if (field == null) {
 		 field = new Field(3, 3);
-		 session.setAttribute("field", field);
+		 session.setAttribute("fild", field);
 		 }
 		
 		 try {
@@ -89,7 +89,7 @@ public class Npuzzle extends HttpServlet {
 		 if (value == Field.EMPTY_CELL) {
 		 out.printf(" ");
 		 } else {
-		 out.printf("<a href='?value=%d'><img alt='g' src='images/g3x3/"+value+".jpeg' style='width:100px 'height=100px' ></a>", value);
+		 out.printf("<a href='?action=play&name=NPuzzle&value=%d'><img alt='g' src='images/g3x3/"+value+".jpeg' style='width:100px 'height=100px' ></a>", value);
 		 imgIndx++;
 		 }
 		 }
@@ -98,14 +98,17 @@ public class Npuzzle extends HttpServlet {
 		 out.println("</table>");
 		
 		 out.println("<form method='get'>");
+		 
+		 out.println("<input type='hidden' name='action' value='play'>");
+		 out.println("<input type='hidden' name='name' value='NPuzzle'>");
 		 out.println("Value:<input type='text' name='value'><br>");
 		 out.println("<input type='submit'><br>");
 		 out.println("</form>");
 		
-		 out.println("<a href='?command=up'>Up</a><br>");
-		 out.println("<a href='?command=down'>Down</a><br>");
-		 out.println("<a href='?command=left'>Left</a><br>");
-		 out.println("<a href='?command=right'>Right</a><br>");
+		 out.println("<a href='?action=play&name=NPuzzle&command=up'>Up</a><br>");
+		 out.println("<a href='?action=play&name=NPuzzle&command=down'>Down</a><br>");
+		 out.println("<a href='?action=play&name=NPuzzle&command=left'>Left</a><br>");
+		 out.println("<a href='?action=play&name=NPuzzle&command=right'>Right</a><br>");
 
 	}
 

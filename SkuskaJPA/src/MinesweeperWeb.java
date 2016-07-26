@@ -110,11 +110,11 @@ public class MinesweeperWeb extends HttpServlet {
 				} else if (tile.getState() == State.CLOSED) {
 
 					out.printf(
-							"<a href='?row=%d&column=%d'><img alt='backgrnd' src='images/bckgrnd.png' style='width:25px'></a> ",
+							"<a href='?action=play&name=Minesweeper&row=%d&column=%d'><img alt='backgrnd' src='images/bckgrnd.png' style='width:25px'></a> ",
 							row, column);
 				} else if (tile.getState() == State.MARKED) {
 					out.printf(
-							"<a href='?row=%d&column=%d'><img alt='mark' src='images/mark.png' style='width:25px'></a>",
+							"<a href='?action=play&name=Minesweeper&row=%d&column=%d'><img alt='mark' src='images/mark.png' style='width:25px'></a>",
 							row, column);
 				}
 			
@@ -123,11 +123,14 @@ public class MinesweeperWeb extends HttpServlet {
 
 		out.println("</table>");
 		out.println("<form method='get'>");
+		out.println("<input type='hidden' name='action' value='play'>");
+		out.println("<input type='hidden' name='name' value='Minesweeper'>");
 		out.println("<button name='subject' type='submit' value='mark'>Mark</button>");
 		out.println("<button name='subject' type='submit' value='open'>Open</button>");
 		out.println("<button name='subject' type='submit' value='restart'>Restart</button>");
 		out.println("</form>");
-
+		request.setAttribute("name", "Minesweeper");
+		request.setAttribute("action", "play");
 //		out.println(request.getParameter("row"));
 //		out.println(request.getParameter("column"));
 //		out.println(request.getParameter("subject"));

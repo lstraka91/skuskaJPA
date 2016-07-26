@@ -21,7 +21,7 @@ import sk.tsystems.gamestudio.services.hibernate.CommentServiceHibernateImpl;
 import sk.tsystems.gamestudio.services.hibernate.GameServiceHibernateImpl;
 import sk.tsystems.gamestudio.services.hibernate.RatingServiceHibernateImpl;
 
-@WebServlet("/students")
+@WebServlet("/gamecenter")
 public class StudentsServlet extends HttpServlet {
 	/**
 	 * 
@@ -146,7 +146,7 @@ public class StudentsServlet extends HttpServlet {
 		// request.getRequestDispatcher("/WEB-INF/jsp/list_students.jsp").forward(request,
 		// response);
 		request.setAttribute("gameList", gameList);
-		request.getRequestDispatcher("/WEB-INF/jsp/list_games.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(request, response);
 
 	}
 }

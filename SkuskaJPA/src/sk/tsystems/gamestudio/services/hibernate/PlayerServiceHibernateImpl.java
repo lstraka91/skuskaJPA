@@ -14,7 +14,7 @@ public class PlayerServiceHibernateImpl {
 		JpaHelper.commitTransaction();
 	}
 	
-	public Player getHracFromDB(String name){
+	public Player getPlayerFromDB(String name){
 		 JpaHelper.beginTransaction();
 		 EntityManager em = JpaHelper.getEntityManager();
 		 JpaHelper.commitTransaction();

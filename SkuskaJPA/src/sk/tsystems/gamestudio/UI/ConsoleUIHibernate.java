@@ -88,7 +88,7 @@ public class ConsoleUIHibernate implements ServiceInterface {
 		Score skore = new Score();
 		if (highScore > 0) {
 			game = gameImpl.getGameByName(gameName);
-			player = playerImpl.getHracFromDB(playerName);
+			player = playerImpl.getPlayerFromDB(playerName);
 			skore.setGame(game);
 			skore.setPlayer(player);
 			skore.setScore(1000 / highScore);
@@ -159,7 +159,7 @@ public class ConsoleUIHibernate implements ServiceInterface {
 	}
 
 	private Player getPlayer(String playerName) {
-		return new PlayerServiceHibernateImpl().getHracFromDB(playerName);
+		return new PlayerServiceHibernateImpl().getPlayerFromDB(playerName);
 	}
 
 	private Game getGame(String gameName) throws GameException {
