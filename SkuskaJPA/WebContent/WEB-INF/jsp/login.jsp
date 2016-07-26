@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -16,13 +17,13 @@
 	integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
 	crossorigin="anonymous">
 
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 <!-- Latest compiled and minified JavaScript -->
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
 	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 	crossorigin="anonymous"></script>
 
-<link rel="stylesheet" href="css/style.css">
 
 
 <title>Welcome to Game Center</title>
@@ -33,9 +34,9 @@
 
 		<div class="row">
 			<div class="center-form panel">
-				<form method="post" action="/GameCenter/register">
+				<form method="post" action="/GameCenter/login">
 					<div class="panel-body">
-						<h2 class="text-center">Registration form</h2>
+						<h2 class="text-center">Please log in</h2>
 
 						<center>
 							<div class="form-group">
@@ -46,50 +47,25 @@
 							</div>
 							<div class="form-group">
 
-								<input type="password" name="Password" value=""
+								<input type="password" name="password" value=""
 									placeholder="Insert your password here"
-									class="form-control input-lg" id="password" required />
-							</div>
-							<div class="form-group">
-
-								<input type="password" name="PasswordC" value=""
-									placeholder="Confirm password" class="form-control input-lg"
-									id="confirm_password" required />
+									class="form-control input-lg" />
 							</div>
 
-							<div class="form-group">
-
-								<input type="email" name="Email" value=""
-									placeholder="Insert your email address" class="form-control input-lg"
-									required />
-							</div>
-							<input type="submit" value="Register user"
+							<input type="submit" value="Login"
 								class="btn btn-lg btn-block btn-success" /> 
 							
-							<a href="/register"
-								class="btn btn-lg btn-block btn-primary">Register</a>
+							<a href="/GameCenter/register" class="btn btn-lg btn-block btn-primary">Register</a>
+							
+							
 						</center>
 					</div>
 				</form>
 			</div>
 		</div>
-		<%@include file="footer.html"%>
+	<%@include file="footer.html"%>
 	</div>
-	<script type="text/javascript">
-		var password = document.getElementById("password"), confirm_password = document
-				.getElementById("confirm_password");
 
-		function validatePassword() {
-			if (password.value != confirm_password.value) {
-				confirm_password.setCustomValidity("Passwords Don't Match");
-			} else {
-				confirm_password.setCustomValidity('');
-			}
-		}
-
-		password.onchange = validatePassword;
-		confirm_password.onkeyup = validatePassword;
-	</script>
 </body>
 </html>
 

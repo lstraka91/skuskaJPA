@@ -2,3 +2,12 @@ h2{
 	color: blue;
 }
 
+.jumbotron {
+    background-image: url("../images/header.jpg");
+    background-size: cover;
+    color: #ff085e;
+}
+.jumbotext{
+    color: #ff80c0;
+font-family:"Lucida Sans";
+}

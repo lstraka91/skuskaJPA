@@ -7,11 +7,12 @@ import sk.tsystems.gamestudio.entity.Player;
 
 public class PlayerServiceHibernateImpl {
 
-	public void insertNewHrac(Player hrac){
+	public void addNewPlayer(Player player){
 		JpaHelper.beginTransaction();
 		EntityManager em = JpaHelper.getEntityManager();
-		em.persist(hrac);
+		em.persist(player);
 		JpaHelper.commitTransaction();
+
 	}
 	
 	public Player getPlayerFromDB(String name){
