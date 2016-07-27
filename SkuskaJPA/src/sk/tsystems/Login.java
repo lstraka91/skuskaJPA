@@ -36,7 +36,7 @@ public class Login extends HttpServlet {
 			 
 			 if(playerList.isEmpty()){
 				 
-				 response.sendRedirect("/GameCenter/gamecenter");
+				 response.sendRedirect("/GameCenter/loginUser");
 			 }else if (playerList.size()==1){
 				 request.getSession().setAttribute("user", playerList.get(0).getName());
 				 response.sendRedirect("/GameCenter/games");

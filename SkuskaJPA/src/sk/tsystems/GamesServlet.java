@@ -25,6 +25,7 @@ import sk.tsystems.gamestudio.services.hibernate.GameServiceHibernateImpl;
 import sk.tsystems.gamestudio.services.hibernate.PlayerServiceHibernateImpl;
 import sk.tsystems.gamestudio.services.hibernate.RatingServiceHibernateImpl;
 import sk.tsystems.gamestudio.services.hibernate.ScoreServiceHibernateImpl;
+import sun.print.resources.serviceui_es;
 
 /**
  * Servlet implementation class GamesServlet
@@ -46,7 +47,10 @@ public class GamesServlet extends HttpServlet {
 	public void init() throws ServletException {
 		super.init();
 		gameservchibrntImpl = new GameServiceHibernateImpl();
-
+		commImpl = new CommentServiceHibernateImpl();
+		playerImpl = new PlayerServiceHibernateImpl();
+		ratingImpl = new RatingServiceHibernateImpl();
+		scoreImpl = new ScoreServiceHibernateImpl();
 		try {
 			gameList = (ArrayList<Game>) gameservchibrntImpl.getGameList();
 		} catch (GameException e) {
@@ -58,74 +62,70 @@ public class GamesServlet extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		commImpl = new CommentServiceHibernateImpl();
-		playerImpl = new PlayerServiceHibernateImpl();
-		ratingImpl = new RatingServiceHibernateImpl();
-		scoreImpl= new ScoreServiceHibernateImpl();
+		
 		String action = request.getParameter("action");
 		HttpSession session = request.getSession();
 		if (session.getAttribute("user") != null) {
 
 			if ("play".equals(action) && request.getParameter("name") != null) {
-				String gameName=request.getParameter("name");
-				
-				try {
-					ratingList = (ArrayList<Rating>) ratingImpl.findRatingForGame(gameName);
-					 
-					
-				} catch (RatingException e) {
-					e.printStackTrace();
-				}
-				
+				String gameName = request.getParameter("name");
+
+				//getRatings(request, gameName);
+
 				getAVGandCountRating(gameName, request);
-				
-				if ("addComment".equals(request.getParameter("addComment")) && !(request.getParameter("comment").trim().isEmpty())) {
-					//request.setAttribute(action, "play");
-					System.out.println(session.getAttribute("gameName") + " " + session.getAttribute("user"));
-					System.out.println(request.getParameter("comment"));
-					saveComment(request, session);
-				}
-				
-				commentList = (ArrayList<Comment>) commImpl.findCommentForGame(request.getParameter("name"));
-				request.setAttribute("commentList", commentList);
-				request.setAttribute("ratingList", ratingList);
-			request.setAttribute("name", gameName);
-//				request.setAttribute("play", request.getParameter("action"));
-				try {
-					scoreList=(ArrayList<Score>) scoreImpl.getScoreforGame(gameName);
-					request.setAttribute("scoreList", scoreList);
-					for (int i = 0; i < scoreList.size(); i++) {
-						System.out.println(scoreList.get(i).getScore());
-						
-					}
-				} catch (ScoreException e) {
+
+				if ("addComment".equals(request.getParameter("addComment"))
+						&& !(request.getParameter("comment").trim().isEmpty())) {
 					
-					e.printStackTrace();
+					saveComment(request, session);
+				} else if ("addRating".equals(request.getParameter("addRating"))
+						&& !(request.getParameter("rating").trim().isEmpty())) {
+					addNewRating(request, session);
 				}
+
+				getComments(request, gameName);
 				
-				//System.out.println("toto je req.for gamename "+gameName);
-				
-				
+				request.setAttribute("name", gameName);
+								
+					getTopScore(request, gameName);
+
 				session.setAttribute("gameName", gameName);
 				request.getRequestDispatcher("/WEB-INF/jsp/gamewindow.jsp").forward(request, response);
 
-			
-							// save comment to DB
-			} else if ("addComment".equals(request.getParameter("addComment")) && !(request.getParameter("comment").trim().isEmpty())) {
-				//request.setAttribute(action, "play");
-				System.out.println(session.getAttribute("gameName") + " " + session.getAttribute("user"));
-				System.out.println(request.getParameter("comment"));
-				saveComment(request, session);
-
-				
+		
 			} else {
 
 				forwardToGameList(request, response);
 			}
 
 		} else {
-			response.sendRedirect("/GameCenter/gamecenter");
+			response.sendRedirect("/GameCenter/loginUser");
 		}
+	}
+
+	private void getTopScore(HttpServletRequest request, String gameName) {
+		try {
+			scoreList = (ArrayList<Score>) scoreImpl.getScoreforGame(gameName);
+			request.setAttribute("scoreList", scoreList);
+		} catch (ScoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void getComments(HttpServletRequest request, String gameName) {
+		commentList = (ArrayList<Comment>) commImpl.findCommentForGame(gameName);
+		request.setAttribute("commentList", commentList);
+	}
+
+	private void getRatings(HttpServletRequest request, String gameName) {
+		try {
+			ratingList = (ArrayList<Rating>) ratingImpl.findRatingForGame(gameName);
+
+		} catch (RatingException e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("ratingList", ratingList);
 	}
 
 	private void saveComment(HttpServletRequest request, HttpSession session) {
@@ -157,21 +157,41 @@ public class GamesServlet extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/jsp/gamewindow.jsp").forward(request, response);
 
 	}
-	private void getAVGandCountRating(String gameName, HttpServletRequest req){
+
+	private void getAVGandCountRating(String gameName, HttpServletRequest req) {
 		try {
 			Game game = gameservchibrntImpl.getGameByName(gameName);
 
 			Rating rating = new Rating();
+
 			RatingId rId = new RatingId();
 			rId.setGameId(game.getIdentGame());
 			rating.setRatingId(rId);
 			ratingImpl.getAverageRatingAndCount(rating);
 			req.setAttribute("average", ratingImpl.getAvgRate());
 			req.setAttribute("count", ratingImpl.getCount());
-			
+
 		} catch (GameException e) {
 
 			e.printStackTrace();
 		}
 	}
+
+	private void addNewRating(HttpServletRequest request, HttpSession session) {
+		Rating rating = new Rating();
+		try {
+			rating.setRateDate(new Date());
+			rating.setRating(Integer.parseInt(request.getParameter("rating")));
+			RatingId rid = new RatingId();
+			rid.setGameId(gameservchibrntImpl.getGameByName(request.getParameter("name")).getIdentGame());
+			rid.setPlayer(playerImpl.getPlayerFromDB((String) session.getAttribute("user")).getId());
+			rating.setRatingId(rid);
+			ratingImpl.add(rating);
+		} catch (RatingException e) {
+			e.printStackTrace();
+		} catch (GameException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

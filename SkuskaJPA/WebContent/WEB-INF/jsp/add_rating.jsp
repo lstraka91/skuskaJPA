@@ -21,19 +21,19 @@
 
 			<div class="form-group">
 			<input type="radio" id="rad1" name="rating" value="1" onclick="this.form.submit()" class="hide_radio">
-			<label class="label_star" for="rad1"> <img src="images/star.png" width="20%"> </label>
+			<label class="label_star" for="rad1"> <img src="images/star.png" width="50px"> </label>
             
             <input type="radio" id="rad2" name="rating" value="2" onclick="this.form.submit()" class="hide_radio">
-            <label class="label_star" for="rad2"> <img src="images/star.png" width="20%"> </label>
+            <label class="label_star" for="rad2"> <img src="images/star.png" width="50px"> </label>
            
             <input type="radio" id="rad3" name="rating" value="3" onclick="this.form.submit()" class="hide_radio">
-            <label class="label_star" for="rad3"> <img src="images/star.png" width="20%"> </label>
+            <label class="label_star" for="rad3"> <img src="images/star.png" width="50px"> </label>
             
             <input type="radio" id="rad4" name="rating" value="4" onclick="this.form.submit()" class="hide_radio">
-            <label class="label_star" for="rad4"> <img src="images/star.png" width="20%"> </label>
+            <label class="label_star" for="rad4"> <img src="images/star.png" width="50px"> </label>
             
             <input type="radio" id="rad5" name="rating" value="5" onclick="this.form.submit()" class="hide_radio">
-			<label class="label_star" for="rad5"> <img src="images/star.png" width="20%"> </label>
+			<label class="label_star" for="rad5"> <img src="images/star.png" width="50px"> </label>
 			</div>
 			
 		</center>

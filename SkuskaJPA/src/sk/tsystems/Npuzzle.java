@@ -120,17 +120,42 @@ public class Npuzzle extends HttpServlet {
 
 		out.println("<form method='get'>");
 
-		out.println("<input type='hidden' name='action' value='play'>");
-		out.println("<input type='hidden' name='name' value='NPuzzle'>");
-		out.println("Value:<input type='text' name='value'><br>");
-		out.println("<input type='submit'><br>");
-		out.println("</form>");
+//		out.println("<input type='hidden' name='action' value='play'>");
+//		out.println("<input type='hidden' name='name' value='NPuzzle'>");
+//		out.println("Value:<input type='text' name='value'><br>");
+//		out.println("<input type='submit'><br>");
+//		out.println("</form>");
+		out.println("<div class='text-center'>");
+		out.println("<div class='row'>");
+		out.println("<div class='col-md-5'>");
+		out.println("</div>");
 
-		out.println("<a href='?action=play&name=NPuzzle&command=up'>Up</a><br>");
-		out.println("<a href='?action=play&name=NPuzzle&command=down'>Down</a><br>");
-		out.println("<a href='?action=play&name=NPuzzle&command=left'>Left</a><br>");
-		out.println("<a href='?action=play&name=NPuzzle&command=right'>Right</a><br>");
-
+		out.println("<div class='col-md-2'>");
+		out.println("<a href='?action=play&name=NPuzzle&command=up'><img alt='up' src='images/up.png' style='width:50%'></a>");
+		out.println("</div>");
+		out.println("</div>");
+		out.println("<div class='row'>");
+		out.println("<div class='col-md-4'>");
+		out.println("</div>");
+		out.println("<div class='col-md-2'>");
+		out.println("<a href='?action=play&name=NPuzzle&command=left'><img alt='left' src='images/left.png' style='width:50%'></a>");
+		out.println("</div>");
+//		out.println("<div class='col-md-1'>");
+//		out.println("</div>");
+		out.println("<div class='col-md-2'>");
+		out.println("<a href='?action=play&name=NPuzzle&command=right'><img alt='right' src='images/right.png' style='width:50%'></a>");
+		out.println("</div>");
+		out.println("</div>");
+		out.println("<div class='row'>");
+		
+		out.println("<div class='col-md-5'>");
+		out.println("</div>");
+		out.println("<div class='col-md-2'>");
+		
+		out.println("<a href='?action=play&name=NPuzzle&command=down'><img alt='down' src='images/down.png' style='width:50%'></a>");
+		out.println("</div>");
+		out.println("</div>");
+		out.println("</div>");
 	}
 
 	/**

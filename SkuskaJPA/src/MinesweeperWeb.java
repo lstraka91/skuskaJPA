@@ -71,11 +71,11 @@ public class MinesweeperWeb extends HttpServlet {
 			switch (toDo) {
 
 			case "open":
-				
+
 				field.openTile(row, column);
 				break;
 			case "mark":
-			
+
 				field.markTile(row, column);
 				break;
 			}
@@ -118,18 +118,31 @@ public class MinesweeperWeb extends HttpServlet {
 
 		renderField(out, field);
 
-		out.println("<div class='center'>");
+		out.println("<div class='container'>");
+		out.println("<div class='text-center'>");
+		out.println("<div class='btn-group'>");
 		out.println("<form method='get' >");
 		out.println("<input type='hidden' name='action' value='play'>");
 		out.println("<input type='hidden' name='name' value='Minesweeper'>");
-		out.println("<button name='subject' type='submit' value='mark'>Mark</button>");
-		out.println("<button name='subject' type='submit' value='open'>Open</button>");
-		out.println("<button name='subject' type='submit' value='restart'>Restart</button>");
+		if(session.getAttribute("subject").equals("mark")){
+			out.println("<button name='subject' type='submit' value='mark' class='btn btn-primary disabled'>Mark</button>");
+		}else{
+			
+			out.println("<button name='subject' type='submit' value='mark' class='btn btn-primary'>Mark</button>");
+		}
+		if(session.getAttribute("subject").equals("open")){
+		out.println("<button name='subject' type='submit' value='open' class='btn btn-primary' disabled >Open</button>");
+		}else{
+			out.println("<button name='subject' type='submit' value='open' class='btn btn-primary'>Open</button>");
+		}
+		out.println("<button name='subject' type='submit' value='restart' class='btn btn-warning'>Restart</button>");
 		out.println("</form>");
+		out.println("</div>");
+		out.println("</div>");
 		out.println("</div>");
 		request.setAttribute("name", "Minesweeper");
 		request.setAttribute("action", "play");
-		
+
 	}
 
 	private void renderField(PrintWriter out, Field field) {
@@ -145,16 +158,16 @@ public class MinesweeperWeb extends HttpServlet {
 						out.print("  X");
 					} else if (tile instanceof Clue) {
 						out.print("<img alt='clue' src='images/" + (((Clue) tile).getValue())
-								+ ".png' style='width:25px'>  ");
+								+ ".png' style='width:35px'>  ");
 					}
 				} else if (tile.getState() == State.CLOSED) {
 
 					out.printf(
-							"<a href='?action=play&name=Minesweeper&row=%d&column=%d'><img alt='backgrnd' src='images/bckgrnd.png' style='width:25px'></a> ",
+							"<a href='?action=play&name=Minesweeper&row=%d&column=%d'><img alt='backgrnd' src='images/backgroundMine.png' style='width:35px'></a> ",
 							row, column);
 				} else if (tile.getState() == State.MARKED) {
 					out.printf(
-							"<a href='?action=play&name=Minesweeper&row=%d&column=%d'><img alt='mark' src='images/mark.png' style='width:25px'></a>",
+							"<a href='?action=play&name=Minesweeper&row=%d&column=%d'><img alt='mark' src='images/mark.png' style='width:35px'></a>",
 							row, column);
 				}
 

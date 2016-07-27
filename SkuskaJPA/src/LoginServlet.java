@@ -21,7 +21,7 @@ import sk.tsystems.gamestudio.services.hibernate.CommentServiceHibernateImpl;
 import sk.tsystems.gamestudio.services.hibernate.GameServiceHibernateImpl;
 import sk.tsystems.gamestudio.services.hibernate.RatingServiceHibernateImpl;
 
-@WebServlet("/gamecenter")
+@WebServlet("/loginUser")
 public class LoginServlet extends HttpServlet {
 	/**
 	 * 

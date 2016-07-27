@@ -22,7 +22,7 @@
 			<div class="form-group">
 			<textarea rows="5"name="comment" class="form-control input-lg"> </textarea>
 			</div>
-			<br> <input type="submit" class="btn btn-lg btn-block btn-success" value="Add Comment">
+			<br> <input type="submit" class="btn btn-lg btn-block btn-primary" value="Add Comment">
 		</center>
 		</div>
 		</div>

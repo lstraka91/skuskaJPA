@@ -57,6 +57,8 @@
 							
 							<a href="/GameCenter/register" class="btn btn-lg btn-block btn-primary">Register</a>
 							
+							<a href="/GameCenter/games" class="btn btn-lg btn-block btn-primary">Continue as guest</a>
+							
 							
 						</center>
 					</div>
