@@ -2,6 +2,7 @@ package sk.tsystems;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import sk.tsystems.gamestudio.entity.Score;
+import sk.tsystems.gamestudio.exceptions.GameException;
+import sk.tsystems.gamestudio.exceptions.ScoreException;
+import sk.tsystems.gamestudio.services.hibernate.GameServiceHibernateImpl;
+import sk.tsystems.gamestudio.services.hibernate.PlayerServiceHibernateImpl;
+import sk.tsystems.gamestudio.services.hibernate.ScoreServiceHibernateImpl;
 import sk.tsystems.stones.core.Field;
 
 /**
@@ -18,6 +25,7 @@ import sk.tsystems.stones.core.Field;
 @WebServlet("/NPuzzle")
 public class Npuzzle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private long startPlayingTime;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -33,82 +41,95 @@ public class Npuzzle extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		 PrintWriter out = response.getWriter();
-		 response.setContentType("text/html");
-		
-		
-		 HttpSession session = request.getSession();
-//		 session.removeAttribute("field");
-		
-		 
-		 Field field = (Field) session.getAttribute("fild");
-		 if (field == null) {
-		 field = new Field(3, 3);
-		 session.setAttribute("fild", field);
-		 }
-		
-		 try {
-		 int value = Integer.parseInt(request.getParameter("value"));
-		 field.move(value);
-		 } catch (Exception e) {
-		 }
-		
-		 String command = request.getParameter("command");
-		 if (command != null) {
-		 switch (command) {
-		 case "up":
-		 field.moveUp();
-		 break;
-		 case "down":
-		 field.moveDown();
-		 break;
-		 case "left":
-		 field.moveLeft();
-		 break;
-		 case "right":
-		 field.moveRight();
-		 break;
-		 }
-		 }
-		
-		 if (field.isSolved()) {
-		 out.println("<h1>Vyhral si</h1>");
-		 // field = new Field(field.getRowCount() + 1, field.getColumnCount()
-		 // + 1);
-		 field = new Field(3, 3);
-		 session.setAttribute("field", field);
-		 }
-		
-		 out.println("<table border='1'>");
-		int imgIndx=0;
-		 for (int row = 0; row < field.getRowCount(); row++) {
-		 out.println("<tr>");
-		 for (int column = 0; column < field.getColumnCount(); column++) {
-		 out.println("<td>");
-		 int value = field.getValueAt(row, column);
-		 if (value == Field.EMPTY_CELL) {
-		 out.printf(" ");
-		 } else {
-		 out.printf("<a href='?action=play&name=NPuzzle&value=%d'><img alt='g' src='images/g3x3/"+value+".jpeg' style='width:100px 'height=100px' ></a>", value);
-		 imgIndx++;
-		 }
-		 }
-		 }
-		
-		 out.println("</table>");
-		
-		 out.println("<form method='get'>");
-		 
-		 out.println("<input type='hidden' name='action' value='play'>");
-		 out.println("<input type='hidden' name='name' value='NPuzzle'>");
-		 out.println("Value:<input type='text' name='value'><br>");
-		 out.println("<input type='submit'><br>");
-		 out.println("</form>");
-		
-		 out.println("<a href='?action=play&name=NPuzzle&command=up'>Up</a><br>");
-		 out.println("<a href='?action=play&name=NPuzzle&command=down'>Down</a><br>");
-		 out.println("<a href='?action=play&name=NPuzzle&command=left'>Left</a><br>");
-		 out.println("<a href='?action=play&name=NPuzzle&command=right'>Right</a><br>");
+		PrintWriter out = response.getWriter();
+		response.setContentType("text/html");
+
+		HttpSession session = request.getSession();
+		// session.removeAttribute("fild");
+		if (session.getAttribute("playTime") == null) {
+
+			startPlayingTime=System.currentTimeMillis();
+			session.setAttribute("playTime", startPlayingTime);
+		}
+		Field field = (Field) session.getAttribute("fild");
+		if (field == null) {
+			
+			field = new Field(3, 3);
+			session.setAttribute("fild", field);
+		}
+
+		try {
+			int value = Integer.parseInt(request.getParameter("value"));
+			field.move(value);
+		} catch (Exception e) {
+		}
+
+		String command = request.getParameter("command");
+		if (command != null) {
+			switch (command) {
+			case "up":
+				field.moveUp();
+				break;
+			case "down":
+				field.moveDown();
+				break;
+			case "left":
+				field.moveLeft();
+				break;
+			case "right":
+				field.moveRight();
+				break;
+			}
+		}
+
+		if (field.isSolved()) {
+			out.println("<h1>Vyhral si</h1>");
+			startPlayingTime=(long) session.getAttribute("playTime");
+			
+			long duringTime=System.currentTimeMillis()-startPlayingTime;
+			
+			int time = (int) duringTime;
+			
+			addScore((time/1000), request);
+			session.removeAttribute("playTime");
+			field = new Field(3, 3);
+			session.setAttribute("fild", field);
+			
+		}
+
+		out.println("<div class='text-center'>");
+		out.println("<table border='1' class='center'>");
+		int imgIndx = 0;
+		for (int row = 0; row < field.getRowCount(); row++) {
+			out.println("<tr>");
+			for (int column = 0; column < field.getColumnCount(); column++) {
+				out.println("<td>");
+				int value = field.getValueAt(row, column);
+				if (value == Field.EMPTY_CELL) {
+					out.printf(" ");
+				} else {
+					out.printf("<a href='?action=play&name=NPuzzle&value=%d'><img alt='g' src='images/g3x3/" + (value-1)
+							+ ".jpeg' style='width:100px 'height=100px' ></a>", value);
+					imgIndx++;
+				}
+			}
+		}
+
+		out.println("</table>");
+		out.println("</div>");
+
+		out.println("<form method='get'>");
+
+		out.println("<input type='hidden' name='action' value='play'>");
+		out.println("<input type='hidden' name='name' value='NPuzzle'>");
+		out.println("Value:<input type='text' name='value'><br>");
+		out.println("<input type='submit'><br>");
+		out.println("</form>");
+
+		out.println("<a href='?action=play&name=NPuzzle&command=up'>Up</a><br>");
+		out.println("<a href='?action=play&name=NPuzzle&command=down'>Down</a><br>");
+		out.println("<a href='?action=play&name=NPuzzle&command=left'>Left</a><br>");
+		out.println("<a href='?action=play&name=NPuzzle&command=right'>Right</a><br>");
 
 	}
 
@@ -121,5 +142,26 @@ public class Npuzzle extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
+	
+	private void addScore(int time, HttpServletRequest req) {
+		if (req.getSession().getAttribute("user") != null) {
 
+			ScoreServiceHibernateImpl scoreImpl = new ScoreServiceHibernateImpl();
+			Score scoreEntity = new Score();
+			try {
+				scoreEntity.setDate(new Date());
+				scoreEntity.setGame(new GameServiceHibernateImpl().getGameByName("NPuzzle"));
+				scoreEntity.setPlayer(new PlayerServiceHibernateImpl()
+						.getPlayerFromDB((String) req.getSession().getAttribute("user")));
+				scoreEntity.setScore(100000 / time);
+				scoreImpl.add(scoreEntity);
+			} catch (GameException e1) {
+				e1.printStackTrace();
+			} catch (ScoreException e) {
+
+				e.printStackTrace();
+			}
+
+		}
+	}
 }

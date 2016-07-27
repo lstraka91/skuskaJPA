@@ -18,8 +18,8 @@ public class PlayerServiceHibernateImpl {
 	public Player getPlayerFromDB(String name){
 		 JpaHelper.beginTransaction();
 		 EntityManager em = JpaHelper.getEntityManager();
-		 JpaHelper.commitTransaction();
 		 Player hrac = (Player) em.createQuery("Select p from Player p where p.name=:name").setParameter("name", name).getSingleResult();
+		 JpaHelper.commitTransaction();
 	
 		 return hrac;
 	}

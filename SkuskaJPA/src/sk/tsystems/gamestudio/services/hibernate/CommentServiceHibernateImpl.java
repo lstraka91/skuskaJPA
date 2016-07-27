@@ -25,7 +25,7 @@ public class CommentServiceHibernateImpl implements CommentService {
 		 JpaHelper.beginTransaction();
 		 EntityManager em = JpaHelper.getEntityManager();
 		 JpaHelper.commitTransaction();
-		 return em.createQuery("Select c from Comment c JOIN c.game h where h.name=:gameName").setParameter("gameName", game).getResultList();
+		 return em.createQuery("Select c from Comment c JOIN c.game h where h.name=:gameName order by c.dateCommented desc").setParameter("gameName", game).getResultList();
 
 		
 	}

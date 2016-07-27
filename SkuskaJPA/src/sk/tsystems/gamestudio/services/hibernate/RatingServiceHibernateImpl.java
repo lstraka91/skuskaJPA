@@ -66,6 +66,7 @@ public class RatingServiceHibernateImpl implements RatingService {
 				.createQuery(
 						"Select r from Rating r JOIN r.ratingId h where h.game=:gameId")
 				.setParameter("gameId", gameFromName.getIdentGame()).getResultList();
+	
 	}
 
 	public int selectRejting(Rating rating) {
@@ -118,5 +119,7 @@ public class RatingServiceHibernateImpl implements RatingService {
 		setCount((int) count);
 
 	}
+	
+
 
 }

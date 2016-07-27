@@ -1,0 +1,38 @@
+<div class="navbar navbar-default navbar-static-top" role="navigation" >
+    <div class="navbar-header" >
+
+        <a class="navbar-brand" href="/GameCenter/games">
+            <span class="glyphicon glyphicon-education"></span>
+            Game<strong>Center</strong> </a>
+        
+    </div>
+    
+    <ul class="nav navbar-nav" >
+        <li><a href="/GameCenter/games">Games Menu</a></li>
+        <li><a href="/GameCenter/">Upload symbolov</a> </li>
+        <li data-match-route="/addwords"><a href="/addwords">Vloenie slov</a></li>
+        <li data-match-route="/createtesttemplate"><a href="/createtesttemplate">Vytvorenie testu</a> </li>
+        <li data-match-route="/testHodnotenie"><a href="/testHodnotenie">Vısledky testov</a> </li>
+    </ul>
+
+
+    <!--TOTO SA ZOBRAZUJE IBA PRIHLASENEMU ADMINISTRATOROVI V NAV-PANELY-->
+    <ul class="nav navbar-nav" ng-if="currentUser.role===1">
+        <li data-match-route="/adminmenu"><a href="/adminmenu">Admin Menu</a> </li>
+        <li data-match-route="/signup"><a href="/signup">Registrácia uèite¾a</a> </li>
+        <li data-match-route="/photoUpload"><a href="/photoUpload">Registrácia iaka</a> </li>
+
+    </ul>
+
+
+    <ul class="nav navbar-nav pull-right" ng-if="!currentUser">
+        <li data-match-route="/loginstudent"><a href="/loginStudent"><span class="glyphicon glyphicon-log-in"></span> Prihlásenie iaka</a></li>
+        <li data-match-route="/login"><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Prihlásenie uèite¾a</a></li>
+
+    </ul>
+    <ul class="nav navbar-nav pull-right" ng-if="currentUser">
+        <li class="navbar-text"><span class="glyphicon glyphicon-user"></span> Prihlásenı pouívate¾:</li>
+       <strong> <li class="navbar-text" style="color:#8c7373" ng-bind="currentUser.fullname"></li></strong>
+        <li><a href="javascript:void(0)" ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span>Odhlási</a></li>
+    </ul>
+</div>

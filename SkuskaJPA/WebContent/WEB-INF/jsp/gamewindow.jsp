@@ -1,50 +1,104 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-    
-    <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+	integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+	crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+	crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="css/style.css">
 <title>Game Center</title>
 </head>
 <body>
+	<div class="container">
+		<%@include file="header.html"%>
+		
+		<a href="/GameCenter/games" class="btn btn-lg btn-block btn-primary">Back to menu</a>
+		<br>
+		<jsp:include page="/${param.name}" flush="true" />
 
-<jsp:include page="/${param.name}" flush="true" />
+		<h2 class="text-center">Top 10 Score in game: ${param.name}</h2>
+<table class="table table-striped">
+			 <thead>
+			<tr>
+				<th>Player Name</th>
+				<th>Score</th>
+				<th>Date Played</th>
+			</tr>
+			 </thead>
+			<c:forEach items="${scoreList}" var="score">
 
-	<jsp:include page="add_comment.jsp"/>
+				<tr>
+					<td>${score.getPlayer().getName()}
+					<td>${score.getScore()}
+					<td><fmt:formatDate value="${score.date}"  pattern="dd.MM.yyyy"/>
+				</tr>
+			</c:forEach>
+		</table>
+		
+		<h2 class="text-center">Users comments for game ${param.name}</h2>
+		<table class="table table-striped">
+			 <thead>
+			<tr>
+				<th>Player Name</th>
+				<th>Comments</th>
+				<th>Commented</th>
+			</tr>
+			 </thead>
+			<c:forEach items="${commentList}" var="comment">
 
-<input type="hidden" name="name" value="Minesweeper">
-<h2>Komentare ku hre ${param.name}</h2>
-   <table>
+				<tr>
+					<td>${comment.getPlayer().getName()}
+					<td>${comment.getUserComment()}
+					<td><fmt:formatDate value="${comment.getDateCommented()}"  pattern="dd.MM.yyyy-HH:mm"/>
+				</tr>
+			</c:forEach>
+		</table>
+		
+		
+		<jsp:include page="add_comment.jsp" />
 
-            <c:forEach items="${commentList}" var="comment">
-                <tr>
-                <th>Meno</th>
-                <th>Koment</th>
-                </tr>
-                <tr>
-                    <td>${comment.getPlayer().getName()}
-                    <td>${comment.getUserComment()}
-                  
-                </tr>
-            </c:forEach>
-        </table>
-        
-        <h2>Rating ku hre ${param.name}</h2>
-   <table>
+		<h2>Rating ku hre ${param.name}</h2>
+		<table>
 
-            <c:forEach items="${ratingList}" var="rating">
-                <tr>
-                <th>Meno</th>
-                <th>Rating</th>
-                </tr>
-                <tr>
-                    <td>${rating.getPlayerName()}
-                    <td>${rating.getRating()}
-                  
-                </tr>
-            </c:forEach>
-        </table>
+			<c:forEach items="${ratingList}" var="rating">
+				<tr>
+					
+					<th>Rating</th>
+				</tr>
+				<tr>
+					
+					<td>${rating.getRating()}
+				</tr>
+			</c:forEach>
+		</table>
+		
+		<p>${average}</p>
+		<p>${count}</p>
+		
+		<jsp:include page="add_rating.jsp" />
+		
+		
+		<%@include file="footer.html"%>
+	</div>
 </body>
 </html>

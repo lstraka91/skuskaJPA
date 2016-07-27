@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -48,7 +48,7 @@
 
 								<input type="password" name="Password" value=""
 									placeholder="Insert your password here"
-									class="form-control input-lg" id="password" required />
+									class="form-control input-lg" id="password" minlength="6" required />
 							</div>
 							<div class="form-group">
 
@@ -66,8 +66,10 @@
 							<input type="submit" value="Register user"
 								class="btn btn-lg btn-block btn-success" /> 
 							
-							<a href="/register"
-								class="btn btn-lg btn-block btn-primary">Register</a>
+							<a href="/GameCenter/gamecenter"
+								class="btn btn-lg btn-block btn-primary">Back to Login</a>
+							<a href="/GameCenter/games"
+								class="btn btn-lg btn-block btn-primary">Continue without login</a>
 						</center>
 					</div>
 				</form>

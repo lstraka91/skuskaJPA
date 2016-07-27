@@ -1,6 +1,7 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import sk.tsystems.gamestudio.entity.Score;
+import sk.tsystems.gamestudio.exceptions.GameException;
+import sk.tsystems.gamestudio.exceptions.ScoreException;
+import sk.tsystems.gamestudio.services.hibernate.GameServiceHibernateImpl;
+import sk.tsystems.gamestudio.services.hibernate.PlayerServiceHibernateImpl;
+import sk.tsystems.gamestudio.services.hibernate.ScoreServiceHibernateImpl;
 import sk.tsystems.mines.minesweeper.core.Clue;
 import sk.tsystems.mines.minesweeper.core.Field;
 import sk.tsystems.mines.minesweeper.core.GameState;
@@ -23,6 +30,7 @@ import sk.tsystems.mines.minesweeper.core.Tile.State;
 public class MinesweeperWeb extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	Tile tile;
+	private long startPlayingTime;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -34,7 +42,15 @@ public class MinesweeperWeb extends HttpServlet {
 		response.setContentType("text/html");
 		out.print("<input type='hidden' name='name' value='Minesweeper'>");
 		HttpSession session = request.getSession();
-		
+
+		// session.removeAttribute("field");
+
+		if (session.getAttribute("playingTimeMines") == null) {
+
+			startPlayingTime = System.currentTimeMillis();
+			session.setAttribute("playingTimeMines", startPlayingTime);
+		}
+
 		Field field = (Field) session.getAttribute("field");
 		if (field == null) {
 			field = new Field(9, 9, 10);
@@ -42,26 +58,24 @@ public class MinesweeperWeb extends HttpServlet {
 		}
 
 		String toDo = (String) session.getAttribute("subject");
-		if (toDo ==null) {
+		if (toDo == null) {
 			session.setAttribute("subject", "open");
-			toDo=(String) session.getAttribute("subject");
+			toDo = (String) session.getAttribute("subject");
 		}
-		
-		
-		
+
 		try {
 			int row = Integer.parseInt(request.getParameter("row"));
 			int column = Integer.parseInt(request.getParameter("column"));
 			toDo = (String) session.getAttribute("subject");
-			
+
 			switch (toDo) {
-			
+
 			case "open":
-				out.println("<h3>Open tiles</h3>");
+				
 				field.openTile(row, column);
 				break;
 			case "mark":
-				out.println("<h3>Mark tiles</h3>");
+			
 				field.markTile(row, column);
 				break;
 			}
@@ -83,18 +97,44 @@ public class MinesweeperWeb extends HttpServlet {
 
 		if (field.getState().equals(GameState.FAILED)) {
 			out.println("<h1>PREHRAL SI</h1>");
+
 			field = new Field(9, 9, 10);
+			session.removeAttribute("playingTimeMines");
 			session.setAttribute("field", field);
 			session.setAttribute("subject", "open");
 		} else if (field.getState().equals(GameState.SOLVED)) {
 			out.println("<h1>VYHRAL SI</h1>");
+			startPlayingTime = (long) session.getAttribute("playingTimeMines");
+			long duringTime = System.currentTimeMillis() - startPlayingTime;
+			int time = (int) duringTime;
+
+			addScore((time / 1000), request);
+
+			session.removeAttribute("playingTimeMines");
 			field = new Field(9, 9, 10);
 			session.setAttribute("field", field);
 			session.setAttribute("subject", "open");
 		}
 
-		out.println("<table border='1'>");
+		renderField(out, field);
 
+		out.println("<div class='center'>");
+		out.println("<form method='get' >");
+		out.println("<input type='hidden' name='action' value='play'>");
+		out.println("<input type='hidden' name='name' value='Minesweeper'>");
+		out.println("<button name='subject' type='submit' value='mark'>Mark</button>");
+		out.println("<button name='subject' type='submit' value='open'>Open</button>");
+		out.println("<button name='subject' type='submit' value='restart'>Restart</button>");
+		out.println("</form>");
+		out.println("</div>");
+		request.setAttribute("name", "Minesweeper");
+		request.setAttribute("action", "play");
+		
+	}
+
+	private void renderField(PrintWriter out, Field field) {
+		out.println("<div class='text-center'>");
+		out.println("<table border='1' class='center'>");
 		for (int row = 0; row < field.getRowCount(); row++) {
 			out.println("<tr>");
 			for (int column = 0; column < field.getColumnCount(); column++) {
@@ -117,23 +157,11 @@ public class MinesweeperWeb extends HttpServlet {
 							"<a href='?action=play&name=Minesweeper&row=%d&column=%d'><img alt='mark' src='images/mark.png' style='width:25px'></a>",
 							row, column);
 				}
-			
+
 			}
 		}
-
 		out.println("</table>");
-		out.println("<form method='get'>");
-		out.println("<input type='hidden' name='action' value='play'>");
-		out.println("<input type='hidden' name='name' value='Minesweeper'>");
-		out.println("<button name='subject' type='submit' value='mark'>Mark</button>");
-		out.println("<button name='subject' type='submit' value='open'>Open</button>");
-		out.println("<button name='subject' type='submit' value='restart'>Restart</button>");
-		out.println("</form>");
-		request.setAttribute("name", "Minesweeper");
-		request.setAttribute("action", "play");
-//		out.println(request.getParameter("row"));
-//		out.println(request.getParameter("column"));
-//		out.println(request.getParameter("subject"));
+		out.println("</div>");
 	}
 
 	/**
@@ -146,4 +174,25 @@ public class MinesweeperWeb extends HttpServlet {
 		doGet(request, response);
 	}
 
+	private void addScore(int time, HttpServletRequest req) {
+		if (req.getSession().getAttribute("user") != null) {
+
+			ScoreServiceHibernateImpl scoreImpl = new ScoreServiceHibernateImpl();
+			Score scoreEntity = new Score();
+			try {
+				scoreEntity.setDate(new Date());
+				scoreEntity.setGame(new GameServiceHibernateImpl().getGameByName("NPuzzle"));
+				scoreEntity.setPlayer(new PlayerServiceHibernateImpl()
+						.getPlayerFromDB((String) req.getSession().getAttribute("user")));
+				scoreEntity.setScore(100000 / time);
+				scoreImpl.add(scoreEntity);
+			} catch (GameException e1) {
+				e1.printStackTrace();
+			} catch (ScoreException e) {
+
+				e.printStackTrace();
+			}
+
+		}
+	}
 }

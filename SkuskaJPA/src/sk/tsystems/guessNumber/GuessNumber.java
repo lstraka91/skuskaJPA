@@ -37,7 +37,7 @@ public class GuessNumber {
 	}
 
 	public GuessNumber(int range) {
-		toGuess = new Random().nextInt(range);
+		toGuess = new Random().nextInt(range)+1;
 		turns = 0;
 		guessed = false;
 		this.range = range;

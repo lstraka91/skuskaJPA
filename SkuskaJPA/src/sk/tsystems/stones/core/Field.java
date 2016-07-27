@@ -23,12 +23,14 @@ public class Field implements Serializable {
 	private final int columnCount;
 
 	private long startMillis;
-
+	private StringBuilder sb;
+	
 	public Field(int rowCount, int columnCount) {
 		this.rowCount = rowCount;
 		this.columnCount = columnCount;
 		tiles = new int[rowCount][columnCount];
 		generate();
+		sb = new StringBuilder();
 		shuffle();
 		startMillis = System.currentTimeMillis();
 	}
@@ -161,6 +163,7 @@ public class Field implements Serializable {
 	}
 
 	private void shuffle() {
+		
 		for (int i = 0; i < 50; i++) {
 
 			Random rndm = new Random();
@@ -169,23 +172,26 @@ public class Field implements Serializable {
 			switch (rnd) {
 			case 0:
 				moveLeft();
-				moveUp();
+				
 				break;
 			case 1:
-				moveDown();
+				
 				moveRight();
 				break;
 			case 2:
-				moveRight();
 				moveUp();
+				
 				break;
 			case 3:
 				moveDown();
-				moveLeft();
+				
 
 			default:
 				break;
 			}
 		}
+	}
+	public String getShuffled(){
+		return sb.toString();
 	}
 }

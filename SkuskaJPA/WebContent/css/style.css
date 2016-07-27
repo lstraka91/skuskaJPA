@@ -1,13 +1,35 @@
-h2{
+h2 {
 	color: blue;
 }
 
 .jumbotron {
-    background-image: url("../images/header.jpg");
-    background-size: cover;
-    color: #ff085e;
+	background-image: url("../images/header.jpg");
+	background-size: cover;
+	color: #ff085e;
 }
-.jumbotext{
-    color: #ff80c0;
-font-family:"Lucida Sans";
+
+.jumbotext {
+	color: #ff80c0;
+	font-family: "Lucida Sans";
+}
+
+table.center {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.hide_radio {
+	display: none !important;
+}
+
+.label_star {
+	opacity: 0.1;
+}
+
+.hide_radio:checked+label {
+	opacity: 1;
+}
+
+label {
+	cursor: pointer;
 }
