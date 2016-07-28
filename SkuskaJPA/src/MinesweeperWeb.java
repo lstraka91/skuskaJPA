@@ -199,7 +199,7 @@ public class MinesweeperWeb extends HttpServlet {
 			Score scoreEntity = new Score();
 			try {
 				scoreEntity.setDate(new Date());
-				scoreEntity.setGame(new GameServiceHibernateImpl().getGameByName("NPuzzle"));
+				scoreEntity.setGame(new GameServiceHibernateImpl().getGameByName("Minesweeper"));
 				scoreEntity.setPlayer(new PlayerServiceHibernateImpl()
 						.getPlayerFromDB((String) req.getSession().getAttribute("user")));
 				scoreEntity.setScore(100000 / time);

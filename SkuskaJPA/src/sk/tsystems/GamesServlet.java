@@ -101,24 +101,9 @@ public class GamesServlet extends HttpServlet {
 			if ("play".equals(action) && request.getParameter("name") != null) {
 				String gameName = request.getParameter("name");
 
-				// getRatings(request, gameName);
-
-				// if ("addComment".equals(request.getParameter("addComment"))
-				// && !(request.getParameter("comment").trim().isEmpty())) {
-				//
-				// saveComment(request, session);
-				// } else if
-				// ("addRating".equals(request.getParameter("addRating"))
-				// && !(request.getParameter("rating").trim().isEmpty())) {
-				// addNewRating(request, session);
-				// }
-
 				getComments(request, gameName);
-
 				request.setAttribute("name", gameName);
-
 				getTopScore(request, gameName);
-
 				getAVGandCountRating(gameName, request);
 				session.setAttribute("gameName", gameName);
 				request.getRequestDispatcher("/WEB-INF/jsp/gamewindow.jsp").forward(request, response);

@@ -35,7 +35,6 @@ public class Login extends HttpServlet {
 			 ArrayList<Player>playerList= (ArrayList<Player>) em.createQuery("Select p from Player p where p.name=:name").setParameter("name", userName).getResultList();
 			 
 			 if(playerList.isEmpty()){
-				 
 				 response.sendRedirect("/GameCenter/loginUser");
 			 }else if (playerList.size()==1){
 				 request.getSession().setAttribute("user", playerList.get(0).getName());

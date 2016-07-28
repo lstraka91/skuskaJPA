@@ -92,7 +92,7 @@ public class Npuzzle extends HttpServlet {
 			long duringTime = System.currentTimeMillis() - startPlayingTime;
 			int time = (int) duringTime / 1000;
 			out.println("<center><h2>VYHRAL SI</h2>");
-			out.println("<h3>Your score is: " + (10000 / time) + "</h3></center>");
+			out.println("<h3>Your score is: " + (100000 / time) + "</h3></center>");
 			addScore((time), request);
 			session.removeAttribute("playTime");
 			field = new Field(3, 3);
