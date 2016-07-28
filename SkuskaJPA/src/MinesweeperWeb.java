@@ -87,28 +87,32 @@ public class MinesweeperWeb extends HttpServlet {
 
 			if (request.getParameter("subject").equals("mark")) {
 				session.setAttribute("subject", "mark");
+				
 			} else if (request.getParameter("subject").equals("open")) {
 				session.setAttribute("subject", "open");
+				
 			} else if (request.getParameter("subject").equals("restart")) {
 				field = new Field(9, 9, 10);
 				session.setAttribute("field", field);
+				session.removeAttribute("playingTimeMines");
 			}
 		}
 
 		if (field.getState().equals(GameState.FAILED)) {
-			out.println("<h1>PREHRAL SI</h1>");
+			out.println("<h2>PREHRAL SI</h2>");
 
-			field = new Field(9, 9, 10);
 			session.removeAttribute("playingTimeMines");
+			field = new Field(9, 9, 10);
 			session.setAttribute("field", field);
 			session.setAttribute("subject", "open");
 		} else if (field.getState().equals(GameState.SOLVED)) {
-			out.println("<h1>VYHRAL SI</h1>");
 			startPlayingTime = (long) session.getAttribute("playingTimeMines");
 			long duringTime = System.currentTimeMillis() - startPlayingTime;
-			int time = (int) duringTime;
-
-			addScore((time / 1000), request);
+			int time = (int) duringTime/1000;
+			out.println("<center><h2>VYHRAL SI</h2>");
+			out.println("<h3>Your score is: "+(10000/time)+"</h3></center>");
+			
+			addScore((time), request);
 
 			session.removeAttribute("playingTimeMines");
 			field = new Field(9, 9, 10);
@@ -147,6 +151,7 @@ public class MinesweeperWeb extends HttpServlet {
 
 	private void renderField(PrintWriter out, Field field) {
 		out.println("<div class='text-center'>");
+		out.println("<h3> Remaining mines: "+field.getRemainingMineCount()+"</h3> ");
 		out.println("<table border='1' class='center'>");
 		for (int row = 0; row < field.getRowCount(); row++) {
 			out.println("<tr>");

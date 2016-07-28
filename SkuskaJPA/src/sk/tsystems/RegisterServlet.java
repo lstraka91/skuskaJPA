@@ -40,7 +40,7 @@ public class RegisterServlet extends HttpServlet {
 		 player.setDate_register(new Date());
 		 PlayerServiceHibernateImpl playerService = new PlayerServiceHibernateImpl();
 		 playerService.addNewPlayer(player);
-		 response.sendRedirect("/GameCenter/gamecenter");
+		 response.sendRedirect("/GameCenter/loginUser");
 		 
 	}
 

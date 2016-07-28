@@ -48,12 +48,17 @@ public class Npuzzle extends HttpServlet {
 		// session.removeAttribute("fild");
 		if (session.getAttribute("playTime") == null) {
 
-			startPlayingTime=System.currentTimeMillis();
+			startPlayingTime = System.currentTimeMillis();
 			session.setAttribute("playTime", startPlayingTime);
 		}
 		Field field = (Field) session.getAttribute("fild");
 		if (field == null) {
-			
+
+			field = new Field(3, 3);
+			session.setAttribute("fild", field);
+		}
+		if (request.getParameter("subject") != null && request.getParameter("subject").equals("restart")) {
+			session.removeAttribute("playTime");
 			field = new Field(3, 3);
 			session.setAttribute("fild", field);
 		}
@@ -83,18 +88,16 @@ public class Npuzzle extends HttpServlet {
 		}
 
 		if (field.isSolved()) {
-			out.println("<h1>Vyhral si</h1>");
-			startPlayingTime=(long) session.getAttribute("playTime");
-			
-			long duringTime=System.currentTimeMillis()-startPlayingTime;
-			
-			int time = (int) duringTime;
-			
-			addScore((time/1000), request);
+			startPlayingTime = (long) session.getAttribute("playTime");
+			long duringTime = System.currentTimeMillis() - startPlayingTime;
+			int time = (int) duringTime / 1000;
+			out.println("<center><h2>VYHRAL SI</h2>");
+			out.println("<h3>Your score is: " + (10000 / time) + "</h3></center>");
+			addScore((time), request);
 			session.removeAttribute("playTime");
 			field = new Field(3, 3);
 			session.setAttribute("fild", field);
-			
+
 		}
 
 		out.println("<div class='text-center'>");
@@ -108,8 +111,8 @@ public class Npuzzle extends HttpServlet {
 				if (value == Field.EMPTY_CELL) {
 					out.printf(" ");
 				} else {
-					out.printf("<a href='?action=play&name=NPuzzle&value=%d'><img alt='g' src='images/g3x3/" + (value-1)
-							+ ".jpeg' style='width:100px 'height=100px' ></a>", value);
+					out.printf("<a href='?action=play&name=NPuzzle&value=%d'><img alt='g' src='images/g3x3/"
+							+ (value - 1) + ".jpeg' style='width:100px 'height=100px' ></a>", value);
 					imgIndx++;
 				}
 			}
@@ -118,44 +121,89 @@ public class Npuzzle extends HttpServlet {
 		out.println("</table>");
 		out.println("</div>");
 
-		out.println("<form method='get'>");
-
-//		out.println("<input type='hidden' name='action' value='play'>");
-//		out.println("<input type='hidden' name='name' value='NPuzzle'>");
-//		out.println("Value:<input type='text' name='value'><br>");
-//		out.println("<input type='submit'><br>");
-//		out.println("</form>");
+		out.println("<div class='container'>");
 		out.println("<div class='text-center'>");
-		out.println("<div class='row'>");
-		out.println("<div class='col-md-5'>");
+		out.println("<div class='btn-group'>");
+		out.println("<form method='get' >");
+		out.println("<input type='hidden' name='action' value='play'>");
+		out.println("<input type='hidden' name='name' value='NPuzzle'>");
+
+		out.println("<button name='subject' type='submit' value='restart' class='btn btn-warning'>Restart</button>");
+		out.println("</form>");
+		out.println("</div>");
+		out.println("</div>");
 		out.println("</div>");
 
-		out.println("<div class='col-md-2'>");
-		out.println("<a href='?action=play&name=NPuzzle&command=up'><img alt='up' src='images/up.png' style='width:50%'></a>");
+		// out.println("<form method='get'>");
+
+		// out.println("<input type='hidden' name='action' value='play'>");
+		// out.println("<input type='hidden' name='name' value='NPuzzle'>");
+		// out.println("Value:<input type='text' name='value'><br>");
+		// out.println("<input type='submit'><br>");
+		// out.println("</form>");
+
+		// out.println("<div class='text-center'>");
+		// out.println("<div class='row'>");
+		// out.println("<div class='col-md-5'>");
+		// out.println("</div>");
+		//
+		// out.println("<div class='col-md-2'>");
+		// out.println("<a href='?action=play&name=NPuzzle&command=up'><img
+		// alt='up' src='images/up.png' style='width:50%'></a>");
+		// out.println("</div>");
+		// out.println("</div>");
+		// out.println("<div class='row'>");
+		// out.println("<div class='col-md-4'>");
+		// out.println("</div>");
+		// out.println("<div class='col-md-2'>");
+		// out.println("<a href='?action=play&name=NPuzzle&command=left'><img
+		// alt='left' src='images/left.png' style='width:50%'></a>");
+		// out.println("</div>");
+		//// out.println("<div class='col-md-1'>");
+		//// out.println("</div>");
+		// out.println("<div class='col-md-2'>");
+		// out.println("<a href='?action=play&name=NPuzzle&command=right'><img
+		// alt='right' src='images/right.png' style='width:50%'></a>");
+		// out.println("</div>");
+		// out.println("</div>");
+		// out.println("<div class='row'>");
+		//
+		// out.println("<div class='col-md-5'>");
+		// out.println("</div>");
+		// out.println("<div class='col-md-2'>");
+		//
+		// out.println("<a href='?action=play&name=NPuzzle&command=down'><img
+		// alt='down' src='images/down.png' style='width:50%'></a>");
+		// out.println("</div>");
+		// out.println("</div>");
+		// out.println("</div>");
+
+		out.println("<br>");
+		out.println("<div class='text-center'>");
+		out.println("<table class='center responsive'>");
+		out.println("<tr>");
+		out.println("<td>");
+		out.println("<td>");
+		out.println(
+				"<a href='?action=play&name=NPuzzle&command=up'><img alt='up' src='images/up.png' style='width:80px' 'height=80px'></a>");
+		out.println("<td>");
+		out.println("<tr>");
+		out.println("<td>");
+		out.println(
+				"<a href='?action=play&name=NPuzzle&command=left'><img alt='left' src='images/left.png' style='width:80px' 'height=80px'></a>");
+		out.println("<td>");
+		out.println("<td>");
+		out.println(
+				"<a href='?action=play&name=NPuzzle&command=right'><img alt='right' src='images/right.png' style='width:80px' 'height=80px'></a>");
+		out.println("<tr>");
+		out.println("<td>");
+		out.println("<td>");
+		out.println(
+				"<a href='?action=play&name=NPuzzle&command=down'><img alt='down' src='images/down.png' style='width:80px' 'height=80px'></a>");
+		out.println("<td>");
+		out.println("</table>");
 		out.println("</div>");
-		out.println("</div>");
-		out.println("<div class='row'>");
-		out.println("<div class='col-md-4'>");
-		out.println("</div>");
-		out.println("<div class='col-md-2'>");
-		out.println("<a href='?action=play&name=NPuzzle&command=left'><img alt='left' src='images/left.png' style='width:50%'></a>");
-		out.println("</div>");
-//		out.println("<div class='col-md-1'>");
-//		out.println("</div>");
-		out.println("<div class='col-md-2'>");
-		out.println("<a href='?action=play&name=NPuzzle&command=right'><img alt='right' src='images/right.png' style='width:50%'></a>");
-		out.println("</div>");
-		out.println("</div>");
-		out.println("<div class='row'>");
-		
-		out.println("<div class='col-md-5'>");
-		out.println("</div>");
-		out.println("<div class='col-md-2'>");
-		
-		out.println("<a href='?action=play&name=NPuzzle&command=down'><img alt='down' src='images/down.png' style='width:50%'></a>");
-		out.println("</div>");
-		out.println("</div>");
-		out.println("</div>");
+
 	}
 
 	/**
@@ -167,7 +215,7 @@ public class Npuzzle extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-	
+
 	private void addScore(int time, HttpServletRequest req) {
 		if (req.getSession().getAttribute("user") != null) {
 

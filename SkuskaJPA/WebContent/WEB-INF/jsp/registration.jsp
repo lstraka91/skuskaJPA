@@ -30,6 +30,7 @@
 <body>
 	<div class="container">
 		<%@include file="header.html"%>
+		<jsp:include page="navbar.jsp" />
 
 		<div class="row">
 			<div class="center-form panel">
@@ -42,13 +43,14 @@
 
 								<input type="text" name="userName" value=""
 									placeholder="Insert your username here"
-									class="form-control input-lg" required/>
+									class="form-control input-lg" required />
 							</div>
 							<div class="form-group">
 
 								<input type="password" name="Password" value=""
 									placeholder="Insert your password here"
-									class="form-control input-lg" id="password" minlength="6" required />
+									class="form-control input-lg" id="password" minlength="6"
+									required />
 							</div>
 							<div class="form-group">
 
@@ -60,16 +62,16 @@
 							<div class="form-group">
 
 								<input type="email" name="Email" value=""
-									placeholder="Insert your email address" class="form-control input-lg"
-									required />
+									placeholder="Insert your email address"
+									class="form-control input-lg" required />
 							</div>
 							<input type="submit" value="Register user"
-								class="btn btn-lg btn-block btn-success" /> 
-							
-							<a href="/GameCenter/gamecenter"
-								class="btn btn-lg btn-block btn-primary">Back to Login</a>
-							<a href="/GameCenter/games"
-								class="btn btn-lg btn-block btn-primary">Continue without login</a>
+								class="btn btn-lg btn-block btn-success" /> <a
+								href="/GameCenter/loginUser"
+								class="btn btn-lg btn-block btn-primary">Back to Login</a> <a
+								href="/GameCenter/games"
+								class="btn btn-lg btn-block btn-primary">Continue without
+								login</a>
 						</center>
 					</div>
 				</form>

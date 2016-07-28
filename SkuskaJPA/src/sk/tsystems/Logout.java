@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class IndexServlet
+ * Servlet implementation class Logout
  */
-@WebServlet("")
-public class IndexServlet extends HttpServlet {
+@WebServlet("/logoutUser")
+public class Logout extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public IndexServlet() {
+    public Logout() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -26,7 +26,10 @@ public class IndexServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
+		if(request.getSession().getAttribute("user")!=null){
+			request.getSession().removeAttribute("user");
+		}
+		response.sendRedirect("/GameCenter/games");
 	}
 
 	/**

@@ -62,21 +62,19 @@ public class GamesServlet extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		
 		String action = request.getParameter("action");
 		HttpSession session = request.getSession();
+		session.setAttribute("gameList", gameList);
 		if (session.getAttribute("user") != null) {
 
 			if ("play".equals(action) && request.getParameter("name") != null) {
 				String gameName = request.getParameter("name");
 
-				//getRatings(request, gameName);
-
-				getAVGandCountRating(gameName, request);
+				// getRatings(request, gameName);
 
 				if ("addComment".equals(request.getParameter("addComment"))
 						&& !(request.getParameter("comment").trim().isEmpty())) {
-					
+
 					saveComment(request, session);
 				} else if ("addRating".equals(request.getParameter("addRating"))
 						&& !(request.getParameter("rating").trim().isEmpty())) {
@@ -84,22 +82,51 @@ public class GamesServlet extends HttpServlet {
 				}
 
 				getComments(request, gameName);
-				
-				request.setAttribute("name", gameName);
-								
-					getTopScore(request, gameName);
 
+				request.setAttribute("name", gameName);
+
+				getTopScore(request, gameName);
+
+				getAVGandCountRating(gameName, request);
 				session.setAttribute("gameName", gameName);
 				request.getRequestDispatcher("/WEB-INF/jsp/gamewindow.jsp").forward(request, response);
 
-		
 			} else {
 
 				forwardToGameList(request, response);
 			}
 
-		} else {
-			response.sendRedirect("/GameCenter/loginUser");
+		} else if (session.getAttribute("user") == null) {
+			// response.sendRedirect("/GameCenter/loginUser");
+			if ("play".equals(action) && request.getParameter("name") != null) {
+				String gameName = request.getParameter("name");
+
+				// getRatings(request, gameName);
+
+				// if ("addComment".equals(request.getParameter("addComment"))
+				// && !(request.getParameter("comment").trim().isEmpty())) {
+				//
+				// saveComment(request, session);
+				// } else if
+				// ("addRating".equals(request.getParameter("addRating"))
+				// && !(request.getParameter("rating").trim().isEmpty())) {
+				// addNewRating(request, session);
+				// }
+
+				getComments(request, gameName);
+
+				request.setAttribute("name", gameName);
+
+				getTopScore(request, gameName);
+
+				getAVGandCountRating(gameName, request);
+				session.setAttribute("gameName", gameName);
+				request.getRequestDispatcher("/WEB-INF/jsp/gamewindow.jsp").forward(request, response);
+
+			} else {
+
+				forwardToGameList(request, response);
+			}
 		}
 	}
 

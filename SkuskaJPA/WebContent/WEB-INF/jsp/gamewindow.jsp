@@ -33,9 +33,10 @@
 <body>
 	<div class="container">
 		<%@include file="header.html"%>
+		
+		<jsp:include page="navbar.jsp" />
 
-		<a href="/GameCenter/games" class="btn btn-lg btn-block btn-info">Back
-			to menu</a> <br>
+	
 		<jsp:include page="/${param.name}" flush="true" />
 
 		<jsp:include page="showAvgRate.jsp" />
@@ -89,7 +90,11 @@
 				<jsp:include page="add_rating.jsp" />
 			</c:when>
 			<c:otherwise>
-			<p>If you want to add comment or rating you have to <a href="/GameCenter/loginUser">log in !!</a> </p>
+			<div class="alert alert-warning" role="alert">
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+  <span class="sr-only">Info:</span>
+ If you want to add comment or rating you have to <a href="/GameCenter/loginUser">log in !!</a>
+</div>
 			</c:otherwise>
 		</c:choose>
 

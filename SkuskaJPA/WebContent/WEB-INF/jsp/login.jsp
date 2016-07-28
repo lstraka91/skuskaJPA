@@ -4,7 +4,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -17,7 +18,8 @@
 	integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
 	crossorigin="anonymous">
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/style.css">
 <!-- Latest compiled and minified JavaScript -->
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
@@ -32,6 +34,8 @@
 	<div class="container">
 		<%@include file="header.html"%>
 
+		<jsp:include page="navbar.jsp" />
+		
 		<div class="row">
 			<div class="center-form panel">
 				<form method="post" action="/GameCenter/login">
@@ -43,7 +47,7 @@
 
 								<input type="text" name="userName" value=""
 									placeholder="Insert your username here"
-									class="form-control input-lg" required/>
+									class="form-control input-lg" required />
 							</div>
 							<div class="form-group">
 
@@ -53,19 +57,19 @@
 							</div>
 
 							<input type="submit" value="Login"
-								class="btn btn-lg btn-block btn-success" /> 
-							
-							<a href="/GameCenter/register" class="btn btn-lg btn-block btn-primary">Register</a>
-							
-							<a href="/GameCenter/games" class="btn btn-lg btn-block btn-primary">Continue as guest</a>
-							
-							
+								class="btn btn-lg btn-block btn-success" /> <a
+								href="/GameCenter/register"
+								class="btn btn-lg btn-block btn-primary">Register</a> <a
+								href="/GameCenter/games"
+								class="btn btn-lg btn-block btn-primary">Continue as guest</a>
+
+
 						</center>
 					</div>
 				</form>
 			</div>
 		</div>
-	<%@include file="footer.html"%>
+		<%@include file="footer.html"%>
 	</div>
 
 </body>

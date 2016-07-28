@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -26,22 +26,22 @@
 <title>Game Center</title>
 </head>
 <body>
-<div class="container">
+	<div class="container">
 
-<%@include file="header.html"%>
-<!--<jsp:include page="/Minesweeper" flush="true" />-->
- <h1 class="text-center">Choose game you want to PLAY</h1>
- <table class="table table-hover">
-            <c:forEach items="${gameList}" var="game">
-                <tr>
-                    <td><a href="?action=play&name=${game.getGameName()}" class="btn btn-lg btn-block btn-primary">${game.getGameName()}</a>
-                   
-                    
-                    
-                </tr>
-            </c:forEach>
-        </table>
-        <%@include file="footer.html"%>
- </div>
+		<%@include file="header.html"%>
+
+		<jsp:include page="navbar.jsp" />
+		<!--<jsp:include page="/Minesweeper" flush="true" />-->
+		<h1 class="text-center">Choose game you want to PLAY</h1>
+		<table class="table table-hover">
+			<c:forEach items="${gameList}" var="game">
+				<tr>
+					<td><a href="?action=play&name=${game.getGameName()}"
+						class="btn btn-lg btn-block btn-primary">${game.getGameName()}</a>
+				</tr>
+			</c:forEach>
+		</table>
+		<%@include file="footer.html"%>
+	</div>
 </body>
 </html>
