@@ -8,8 +8,8 @@
             <property name="hibernate.connection.url" value="jdbc:oracle:thin:@//localhost:1521/XE"/>
           <property name="hibernate.connection.username" value="strakal"/>
             <property name="hibernate.connection.password" value="p4ssw0rd"/>  
-          <!--    <property name="hibernate.connection.username" value="gamestudio"/>
-            <property name="hibernate.connection.password" value="password"/>  --> 
+           <!--   <property name="hibernate.connection.username" value="gamestudio"/>
+            <property name="hibernate.connection.password" value="password"/> -->  
             <!--<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect"/>-->
             <!--<property name="hibernate.connection.charSet" value="UTF-8"/>-->
 

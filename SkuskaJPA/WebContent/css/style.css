@@ -1,8 +1,14 @@
 h2 {
 	color: blue;
+	font-family: 'Indie Flower', cursive;
+}
+h1 {
+	color: navy;
+	font-family: 'Sigmar One', cursive;
 }
 h3 {
 	color: blue;
+	font-family: 'Indie Flower', cursive;
 }
 
 .jumbotron {
@@ -13,7 +19,7 @@ h3 {
 
 .jumbotext {
 	color: #ff80c0;
-	font-family: "Lucida Sans";
+	font-family: 'Indie Flower', cursive;
 }
 
 table.center {
@@ -52,4 +58,6 @@ span_center{
 	margin-left: auto;
 	margin-right: auto;
 }
+h2{
+	font-family: 'Indie Flower', cursive;
 }

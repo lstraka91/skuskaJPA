@@ -12,7 +12,7 @@ import sk.tsystems.gamestudio.services.hibernate.StatisticsHibernateImpl;
 /**
  * Servlet implementation class StatisticsServlet
  */
-@WebServlet("/stats")
+@WebServlet("/statistics")
 public class StatisticsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private StatisticsHibernateImpl statisticsServiceImpl;
@@ -31,11 +31,12 @@ public class StatisticsServlet extends HttpServlet {
 		request.setAttribute("countOfTotalPlayedGames", statisticsServiceImpl.countOfTotalPlayedGames());
 		request.setAttribute("gameCountScore", statisticsServiceImpl.gameCountScore());
 		request.setAttribute("getCountRatings", statisticsServiceImpl.getCountRatings());
-		request.setAttribute("getFavoriteGame", statisticsServiceImpl.getFavoriteGame());
-		request.setAttribute("getMostCommentedGame", statisticsServiceImpl.getMostCommentedGame());
-		request.setAttribute("getPlayerGambler", statisticsServiceImpl.getPlayerGambler());
+		request.setAttribute("getFavoriteGame", statisticsServiceImpl.getFavoriteGame().getGame());
+		request.setAttribute("getMostCommentedGame", statisticsServiceImpl.getMostCommentedGame().getGameName());
+		request.setAttribute("getPlayerGambler", statisticsServiceImpl.getPlayerGambler().getPlayer());
 		request.setAttribute("getEachPlayerPlays", statisticsServiceImpl.getEachPlayerCountScore());
-
+		request.setAttribute("countOfRating", statisticsServiceImpl.countOfRatings());
+		request.setAttribute("countOfComments", statisticsServiceImpl.countOfComments());
 		
 		request.getRequestDispatcher("/WEB-INF/jsp/statistic.jsp").forward(request, response);
 	}

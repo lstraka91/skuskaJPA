@@ -46,6 +46,12 @@ public class StatisticsHibernateImpl {
 	public long countOfTotalPlayedGames() {
 		return (long) JpaHelper.getEntityManager().createQuery("SELECT count(*) FROM Score s ").getSingleResult();
 	}
+	public long countOfRatings() {
+		return (long) JpaHelper.getEntityManager().createQuery("SELECT count(*) FROM Rating r ").getSingleResult();
+	}
+	public long countOfComments() {
+		return (long) JpaHelper.getEntityManager().createQuery("SELECT count(*) FROM Comment c ").getSingleResult();
+	}
 
 	public GameCountScores getFavoriteGame() {
 		if (gameCountScore().size() > 0) {

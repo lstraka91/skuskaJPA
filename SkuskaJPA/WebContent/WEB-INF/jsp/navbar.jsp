@@ -24,7 +24,7 @@
 			<li><a href="/GameCenter/games">Games Menu</a></li>
 			<li><a href="/GameCenter/statistics">Statistics</a></li>
 			<c:forEach items="${sessionScope.gameList}" var="game">
-			<li><a href="?action=play&name=${game.getGameName()}">${game.getGameName()}</a></li>
+			<li><a href="/GameCenter/games?action=play&name=${game.getGameName()}">${game.getGameName()}</a></li>
 				
 			</c:forEach>
 		</ul>
