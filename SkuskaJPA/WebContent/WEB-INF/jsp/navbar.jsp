@@ -32,7 +32,7 @@
 		<ul class="nav navbar-nav pull-right">
 			<c:choose>
 				<c:when test="${sessionScope.user!=null}">
-					<li><span class="glyphicon glyphicon-user">${sessionScope.user }</span></li>
+					<li><a href="/GameCenter/logoutUser"><span class="glyphicon glyphicon-user"></span> ${sessionScope.user }</a></li>
 					<li><a href="/GameCenter/logoutUser"><span
 							class="glyphicon glyphicon-log-in"></span> Log Out</a></li>
 

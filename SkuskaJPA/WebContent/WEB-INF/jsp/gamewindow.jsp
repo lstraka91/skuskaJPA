@@ -27,17 +27,19 @@
 	crossorigin="anonymous"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<link href='https://fonts.googleapis.com/css?family=Indie+Flower|Candal|Sigmar+One' rel='stylesheet' type='text/css'>
+<link
+	href='https://fonts.googleapis.com/css?family=Indie+Flower|Candal|Sigmar+One'
+	rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="css/style.css">
 <title>Game Center</title>
 </head>
 <body>
 	<div class="container">
 		<%@include file="header.html"%>
-		
+
 		<jsp:include page="navbar.jsp" />
 
-	
+
 		<jsp:include page="/${param.name}" flush="true" />
 
 		<jsp:include page="showAvgRate.jsp" />
@@ -81,21 +83,28 @@
 				</tr>
 			</c:forEach>
 		</table>
-		
+
 		<!-- show add rating and comment only for login users -->
 		<c:choose>
 			<c:when test="${sessionScope.user!=null}">
-
-				<jsp:include page="add_comment.jsp" />
-
-				<jsp:include page="add_rating.jsp" />
+				<div class="container">
+				<div class="row">
+					<div class="col-md-7">
+						<jsp:include page="add_comment.jsp" />
+					</div>
+					<div class="col-md-5">
+						<jsp:include page="add_rating.jsp" />
+					</div>
+					</div>
+				</div>
 			</c:when>
 			<c:otherwise>
-			<div class="alert alert-warning" role="alert">
-  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-  <span class="sr-only">Info:</span>
- If you want to add comment or rating you have to <a href="/GameCenter/loginUser">log in !!</a>
-</div>
+				<div class="alert alert-warning" role="alert">
+					<span class="glyphicon glyphicon-exclamation-sign"
+						aria-hidden="true"></span> <span class="sr-only">Info:</span> If
+					you want to add comment or rating you have to <a
+						href="/GameCenter/loginUser">log in !!</a>
+				</div>
 			</c:otherwise>
 		</c:choose>
 

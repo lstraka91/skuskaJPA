@@ -77,7 +77,8 @@ public class GuessNumberServlet extends HttpServlet {
 		}
 
 		if (guesNum.isGuessed()) {
-			out.println("<h1>Vyhral si</h1>");
+			out.println("<center><h1>You WON!!</h1>");
+			out.println("<h2>You guess on: "+steps+" turns</h2></center>");
 			int score = (int) session.getAttribute("steps");
 			addScore(score, request);
 
@@ -96,9 +97,9 @@ public class GuessNumberServlet extends HttpServlet {
 		out.println("<input type='hidden' name='name' value='GuessNumber'>");
 		out.println("<div class='form-group'>");
 		out.println(
-				"Input number you think I am thinkig on:<input type='text' name='value' autofocus class='form-control input-lg'><br> ");
+				"Input number you think I am thinkig on:<input type='text' name='value' autofocus class='form-control input-lg' required><br> ");
 		out.println("</div>");
-		out.println("<input type='submit' class='btn btn-lg btn-block btn-primary'><br>");
+		out.println("<input type='submit' value='Guess the number' class='btn btn-lg btn-block btn-primary'><br>");
 		out.println("</div>");
 		out.println("</form>");
 		out.println("</div>");

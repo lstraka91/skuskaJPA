@@ -9,7 +9,7 @@
 </head>
 
 <body>
-<div class="container">
+
 	<form  method="get">
 	<div class="row">
 			<div class="center-form panel">
@@ -40,6 +40,6 @@
 		</div>
 		</div>
 	</form>
-	</div>
+	
 </body>
 </html>

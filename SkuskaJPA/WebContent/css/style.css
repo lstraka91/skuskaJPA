@@ -18,7 +18,7 @@ h3 {
 }
 
 .jumbotext {
-	color: #ff80c0;
+	color: #fdfdfd;
 	font-family: 'Indie Flower', cursive;
 }
 
@@ -32,7 +32,10 @@ table.center {
 }
 
 .label_star {
-	opacity: 0.1;
+	opacity: 0.5;
+}
+.label_star:hover{
+	opacity: 0.9;
 }
 
 .hide_radio:checked+label {
