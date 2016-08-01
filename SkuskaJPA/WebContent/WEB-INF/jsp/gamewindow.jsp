@@ -64,7 +64,14 @@
 			</c:forEach>
 		</table>
 
+
 		<h2 class="text-center">Users comments for game ${param.name}</h2>
+		<c:if test="${not empty comentDelete}">
+			<div class="alert alert-danger" role="alert">
+				<strong>Invalid delete operation!</strong> You can't delete comment
+				that is not published by yourself!.
+			</div>
+		</c:if>
 		<table class="table table-striped">
 			<thead>
 				<tr>
@@ -79,7 +86,12 @@
 					<td>${comment.getPlayer().getName()}
 					<td>${comment.getUserComment()}
 					<td><fmt:formatDate value="${comment.getDateCommented()}"
-							pattern="dd.MM.yyyy-HH:mm" />
+							pattern="dd.MM.yyyy-HH:mm" /> <c:if
+							test="${sessionScope.user!=null}">
+
+							<td><a
+								href="?name=${param.name}&action=play&delete=delete&id=${comment.ident}&comentUser=${comment.getPlayer().getName()}"><span class="glyphicon glyphicon-remove"></span></a>
+						</c:if>
 				</tr>
 			</c:forEach>
 		</table>
@@ -88,13 +100,13 @@
 		<c:choose>
 			<c:when test="${sessionScope.user!=null}">
 				<div class="container">
-				<div class="row">
-					<div class="col-md-7">
-						<jsp:include page="add_comment.jsp" />
-					</div>
-					<div class="col-md-5">
-						<jsp:include page="add_rating.jsp" />
-					</div>
+					<div class="row">
+						<div class="col-md-7">
+							<jsp:include page="add_comment.jsp" />
+						</div>
+						<div class="col-md-5">
+							<jsp:include page="add_rating.jsp" />
+						</div>
 					</div>
 				</div>
 			</c:when>

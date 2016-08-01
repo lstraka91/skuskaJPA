@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import sk.tsystems.gamestudio.entity.Score;
 import sk.tsystems.gamestudio.exceptions.GameException;
+import sk.tsystems.gamestudio.exceptions.PlayerException;
 import sk.tsystems.gamestudio.exceptions.ScoreException;
 import sk.tsystems.gamestudio.services.hibernate.GameServiceHibernateImpl;
 import sk.tsystems.gamestudio.services.hibernate.PlayerServiceHibernateImpl;
@@ -23,7 +24,7 @@ import sk.tsystems.guessNumber.GuessNumber;
  * Servlet implementation class GuessNumber
  */
 @WebServlet("/GuessNumber")
-public class GuessNumberServlet extends HttpServlet {
+public class GuessNumberServlet extends GamesServletServices {
 	private static final long serialVersionUID = 1L;
 	private int steps;
 
@@ -78,9 +79,11 @@ public class GuessNumberServlet extends HttpServlet {
 
 		if (guesNum.isGuessed()) {
 			out.println("<center><h1>You WON!!</h1>");
-			out.println("<h2>You guess on: "+steps+" turns</h2></center>");
-			int score = (int) session.getAttribute("steps");
-			addScore(score, request);
+			out.println("<h2>You guess on: " + steps + " turns</h2></center>");
+			int score = 1000/((int) session.getAttribute("steps"));
+
+			String gameName = request.getParameter("name");
+			addScore(request, score, gameName);
 
 			guesNum = new GuessNumber(20);
 			steps = 0;
@@ -116,25 +119,4 @@ public class GuessNumberServlet extends HttpServlet {
 		doGet(request, response);
 	}
 
-	private void addScore(int score, HttpServletRequest req) {
-		if (req.getSession().getAttribute("user") != null) {
-
-			ScoreServiceHibernateImpl scoreImpl = new ScoreServiceHibernateImpl();
-			Score scoreEntity = new Score();
-			try {
-				scoreEntity.setDate(new Date());
-				scoreEntity.setGame(new GameServiceHibernateImpl().getGameByName("GuessNumber"));
-				scoreEntity.setPlayer(new PlayerServiceHibernateImpl()
-						.getPlayerFromDB((String) req.getSession().getAttribute("user")));
-				scoreEntity.setScore(1000 / score);
-				scoreImpl.add(scoreEntity);
-			} catch (GameException e1) {
-				e1.printStackTrace();
-			} catch (ScoreException e) {
-
-				e.printStackTrace();
-			}
-
-		}
-	}
 }

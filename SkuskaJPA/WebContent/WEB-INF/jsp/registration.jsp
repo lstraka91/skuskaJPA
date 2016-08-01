@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -21,7 +23,9 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
 	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 	crossorigin="anonymous"></script>
-<link href='https://fonts.googleapis.com/css?family=Indie+Flower|Candal|Sigmar+One' rel='stylesheet' type='text/css'>
+<link
+	href='https://fonts.googleapis.com/css?family=Indie+Flower|Candal|Sigmar+One'
+	rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="css/style.css">
 
 
@@ -32,6 +36,11 @@
 		<%@include file="header.html"%>
 		<jsp:include page="navbar.jsp" />
 
+		<c:if test="${not empty param.error}">
+			<div class="alert alert-danger" role="alert">
+				<strong>Registration Error!</strong> Username allready exist, change the username.
+			</div>
+		</c:if>
 		<div class="row">
 			<div class="center-form panel">
 				<form method="post" action="/GameCenter/register">

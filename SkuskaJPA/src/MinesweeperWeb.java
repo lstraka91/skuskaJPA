@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import sk.tsystems.GamesServletServices;
 import sk.tsystems.gamestudio.entity.Score;
 import sk.tsystems.gamestudio.exceptions.GameException;
+import sk.tsystems.gamestudio.exceptions.PlayerException;
 import sk.tsystems.gamestudio.exceptions.ScoreException;
 import sk.tsystems.gamestudio.services.hibernate.GameServiceHibernateImpl;
 import sk.tsystems.gamestudio.services.hibernate.PlayerServiceHibernateImpl;
@@ -27,7 +29,7 @@ import sk.tsystems.mines.minesweeper.core.Tile.State;
  * Servlet implementation class MinesweeperWeb
  */
 @WebServlet("/Minesweeper")
-public class MinesweeperWeb extends HttpServlet {
+public class MinesweeperWeb extends GamesServletServices {
 	private static final long serialVersionUID = 1L;
 	Tile tile;
 	private long startPlayingTime;
@@ -109,18 +111,17 @@ public class MinesweeperWeb extends HttpServlet {
 		} else if (field.getState().equals(GameState.SOLVED)) {
 			startPlayingTime = (long) session.getAttribute("playingTimeMines");
 			long duringTime = System.currentTimeMillis() - startPlayingTime;
-			int time = (int) duringTime / 1000;
+			int time = 10000 / ((int) duringTime / 1000);
 			out.println("<center><h2>You won this game!</h2>");
-			out.println("<h3>Your score is: " + (10000 / time) + "</h3></center>");
-
-			addScore((time), request);
+			out.println("<h3>Your score is: " + (time) + "</h3></center>");
+			String gameName = request.getParameter("name");
+			addScore(request, time, gameName);
 
 			session.removeAttribute("playingTimeMines");
 			field = new Field(9, 9, 10);
 			session.setAttribute("field", field);
 			session.setAttribute("subject", "open");
 		}
-
 
 		out.println("<div class='container'>");
 		out.println("<div class='text-center'>");
@@ -168,28 +169,28 @@ public class MinesweeperWeb extends HttpServlet {
 								+ ".png' style='width:35px'>  ");
 					}
 				} else if (tile.getState() == State.CLOSED) {
-					if (field.getState().equals(GameState.FAILED)||field.getState().equals(GameState.SOLVED)){
+					if (field.getState().equals(GameState.FAILED) || field.getState().equals(GameState.SOLVED)) {
 						out.print("<img alt='backgrnd' src='images/backgroundMine.png' style='width:35px'>");
-					}else{
-						
-					out.printf(
-							"<a href='?action=play&name=Minesweeper&row=%d&column=%d'><img alt='backgrnd' src='images/backgroundMine.png' style='width:35px'></a> ",
-							row, column);
+					} else {
+
+						out.printf(
+								"<a href='?action=play&name=Minesweeper&row=%d&column=%d'><img alt='backgrnd' src='images/backgroundMine.png' style='width:35px'></a> ",
+								row, column);
 					}
 				} else if (tile.getState() == State.MARKED) {
-					if (field.getState().equals(GameState.FAILED)||field.getState().equals(GameState.SOLVED)){
+					if (field.getState().equals(GameState.FAILED) || field.getState().equals(GameState.SOLVED)) {
 						out.print("<img alt='mark' src='images/mark.png' style='width:35px'>");
-					}
-					}else{
-						
-					out.printf(
-							"<a href='?action=play&name=Minesweeper&row=%d&column=%d'><img alt='mark' src='images/mark.png' style='width:35px'></a>",
-							row, column);
-					}
-				}
 
+					} else {
+
+						out.printf(
+								"<a href='?action=play&name=Minesweeper&row=%d&column=%d'><img alt='mark' src='images/mark.png' style='width:35px'></a>",
+								row, column);
+					}
+
+				}
 			}
-		
+		}
 		out.println("</table>");
 		out.println("</div>");
 	}
@@ -204,25 +205,4 @@ public class MinesweeperWeb extends HttpServlet {
 		doGet(request, response);
 	}
 
-	private void addScore(int time, HttpServletRequest req) {
-		if (req.getSession().getAttribute("user") != null) {
-
-			ScoreServiceHibernateImpl scoreImpl = new ScoreServiceHibernateImpl();
-			Score scoreEntity = new Score();
-			try {
-				scoreEntity.setDate(new Date());
-				scoreEntity.setGame(new GameServiceHibernateImpl().getGameByName("Minesweeper"));
-				scoreEntity.setPlayer(new PlayerServiceHibernateImpl()
-						.getPlayerFromDB((String) req.getSession().getAttribute("user")));
-				scoreEntity.setScore(100000 / time);
-				scoreImpl.add(scoreEntity);
-			} catch (GameException e1) {
-				e1.printStackTrace();
-			} catch (ScoreException e) {
-
-				e.printStackTrace();
-			}
-
-		}
-	}
 }

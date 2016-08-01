@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import sk.tsystems.gamestudio.entity.Score;
 import sk.tsystems.gamestudio.exceptions.GameException;
+import sk.tsystems.gamestudio.exceptions.PlayerException;
 import sk.tsystems.gamestudio.exceptions.ScoreException;
 import sk.tsystems.gamestudio.games.findTheMouse.Field;
 import sk.tsystems.gamestudio.games.findTheMouse.Mouse;
@@ -25,7 +26,7 @@ import sk.tsystems.gamestudio.services.hibernate.ScoreServiceHibernateImpl;
  * Servlet implementation class FindTheMouseServlet
  */
 @WebServlet("/FindTheMouse")
-public class FindTheMouseServlet extends HttpServlet {
+public class FindTheMouseServlet extends GamesServletServices {
 	private static final long serialVersionUID = 1L;
 	Tile tile;
 
@@ -69,7 +70,8 @@ public class FindTheMouseServlet extends HttpServlet {
 			out.println("<center><h2>You won this game!</h2>");
 			out.println("<h3>Your score is: " + score + "</h3></center>");
 
-			addScore(score, request);
+			String gameName= request.getParameter("name");
+			addScore(request, score, gameName);
 
 			// session.removeAttribute("playingTimeMouse");
 			field = new Field(6, 6);
@@ -132,25 +134,4 @@ public class FindTheMouseServlet extends HttpServlet {
 
 	}
 
-	private void addScore(int score, HttpServletRequest req) {
-		if (req.getSession().getAttribute("user") != null) {
-
-			ScoreServiceHibernateImpl scoreImpl = new ScoreServiceHibernateImpl();
-			Score scoreEntity = new Score();
-			try {
-				scoreEntity.setDate(new Date());
-				scoreEntity.setGame(new GameServiceHibernateImpl().getGameByName("FindTheMouse"));
-				scoreEntity.setPlayer(new PlayerServiceHibernateImpl()
-						.getPlayerFromDB((String) req.getSession().getAttribute("user")));
-				scoreEntity.setScore(score);
-				scoreImpl.add(scoreEntity);
-			} catch (GameException e1) {
-				e1.printStackTrace();
-			} catch (ScoreException e) {
-
-				e.printStackTrace();
-			}
-
-		}
-	}
 }

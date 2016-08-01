@@ -16,19 +16,19 @@ import sk.tsystems.gamestudio.services.PlayerService;
 public class PlayerServiceJDBCImpl implements PlayerService {
 private final String SELECT_PLAYER_BY_NAME = "Select name, id_user from player where name=? ";
 	@Override
-	public void add(Player player) throws PlayerException {
+	public void addNewPlayer(Player player) throws PlayerException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public List<Player> getPlayerList() throws PlayerException {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
-	public Player getPlayerByName(String name) throws PlayerException {
+	public Player getPlayerFromDB(String name) throws PlayerException {
 		Player player = new Player();
 		try (Connection connection = DriverManager.getConnection(DatabaseSetting.URL, DatabaseSetting.USER,
 				DatabaseSetting.PASSWORD); 

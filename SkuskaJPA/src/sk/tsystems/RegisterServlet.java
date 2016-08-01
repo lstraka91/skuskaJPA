@@ -39,8 +39,17 @@ public class RegisterServlet extends HttpServlet {
 		 player.setPassword(pass);
 		 player.setDate_register(new Date());
 		 PlayerServiceHibernateImpl playerService = new PlayerServiceHibernateImpl();
-		 playerService.addNewPlayer(player);
-		 response.sendRedirect("/GameCenter/loginUser");
+		 try {
+			playerService.addNewPlayer(player);
+			request.getSession().setAttribute("user", player.getName());
+			response.sendRedirect("/GameCenter/games");
+			return;
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		 response.sendRedirect("/GameCenter/register?error='invalid'");
+		 
 		 
 	}
 

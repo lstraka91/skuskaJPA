@@ -72,7 +72,7 @@ public class ConsoleUI_JDBC implements ServiceInterface {
 	}
 
 	private Player getPlayerByName(String playerName) throws PlayerException {
-		Player player = this.player.getPlayerByName(playerName);
+		Player player = this.player.getPlayerFromDB(playerName);
 		return player;
 
 	}

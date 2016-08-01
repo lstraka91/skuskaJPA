@@ -28,14 +28,16 @@ public class Login extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 String userName = request.getParameter("userName");
+		 String pass = request.getParameter("password");
 	      //  String passwd = request.getParameter("pass");
 	        JpaHelper.beginTransaction();
 			 EntityManager em = JpaHelper.getEntityManager();
 			 JpaHelper.commitTransaction();
-			 ArrayList<Player>playerList= (ArrayList<Player>) em.createQuery("Select p from Player p where p.name=:name").setParameter("name", userName).getResultList();
+			 ArrayList<Player>playerList= (ArrayList<Player>) em.createQuery("Select p from Player p where p.name=:name AND p.password=:password").setParameter("name", userName).setParameter("password", pass).getResultList();
 			 
 			 if(playerList.isEmpty()){
-				 response.sendRedirect("/GameCenter/loginUser");
+				 request.setAttribute("error", "DACO NEDOBRE");
+				 response.sendRedirect("/GameCenter/loginUser?error='invalid'");
 			 }else if (playerList.size()==1){
 				 request.getSession().setAttribute("user", playerList.get(0).getName());
 				 response.sendRedirect("/GameCenter/games");

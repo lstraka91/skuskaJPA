@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.persistence.EntityManager;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import sk.ness.jpa.JpaHelper;
 import sk.tsystems.gamestudio.entity.Comment;
 import sk.tsystems.gamestudio.entity.Game;
 import sk.tsystems.gamestudio.entity.Player;
@@ -18,6 +20,7 @@ import sk.tsystems.gamestudio.entity.Rating;
 import sk.tsystems.gamestudio.entity.RatingId;
 import sk.tsystems.gamestudio.entity.Score;
 import sk.tsystems.gamestudio.exceptions.GameException;
+import sk.tsystems.gamestudio.exceptions.PlayerException;
 import sk.tsystems.gamestudio.exceptions.RatingException;
 import sk.tsystems.gamestudio.exceptions.ScoreException;
 import sk.tsystems.gamestudio.services.hibernate.CommentServiceHibernateImpl;
@@ -79,6 +82,15 @@ public class GamesServlet extends HttpServlet {
 				} else if ("addRating".equals(request.getParameter("addRating"))
 						&& !(request.getParameter("rating").trim().isEmpty())) {
 					addNewRating(request, session);
+				} else if ("delete".equals(request.getParameter("delete"))) {
+					int id = Integer.parseInt(request.getParameter("id"));
+					if(session.getAttribute("user")==request.getParameter("comentUser")){
+						
+					deleteComment(id);
+					
+					}else{
+						request.setAttribute("comentDelete", "comentDelete");
+					}
 				}
 
 				getComments(request, gameName);
@@ -150,11 +162,17 @@ public class GamesServlet extends HttpServlet {
 		} catch (GameException e) {
 			e.printStackTrace();
 		}
-		Player loginPlayer = playerImpl.getPlayerFromDB((String) session.getAttribute("user"));
-		commentToAdd.setDateCommented(new Date());
-		commentToAdd.setPlayer(loginPlayer);
-		commentToAdd.setUserComment(request.getParameter("comment"));
-		commImpl.add(commentToAdd);
+		Player loginPlayer;
+		try {
+			loginPlayer = playerImpl.getPlayerFromDB((String) session.getAttribute("user"));
+			commentToAdd.setDateCommented(new Date());
+			commentToAdd.setPlayer(loginPlayer);
+			commentToAdd.setUserComment(request.getParameter("comment"));
+			commImpl.add(commentToAdd);
+		} catch (PlayerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void forwardToGameList(HttpServletRequest request, HttpServletResponse response)
@@ -203,7 +221,17 @@ public class GamesServlet extends HttpServlet {
 			e.printStackTrace();
 		} catch (GameException e) {
 			e.printStackTrace();
+		} catch (PlayerException e) {
+			e.printStackTrace();
 		}
+	}
+
+	private void deleteComment(int id) {
+		EntityManager em = JpaHelper.getEntityManager();
+		Comment commentToDelete = em.find(Comment.class, id);
+		em.getTransaction().begin();
+		em.remove(commentToDelete);
+		em.getTransaction().commit();
 	}
 
 }

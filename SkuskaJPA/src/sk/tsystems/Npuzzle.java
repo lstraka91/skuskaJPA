@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import sk.tsystems.gamestudio.entity.Score;
 import sk.tsystems.gamestudio.exceptions.GameException;
+import sk.tsystems.gamestudio.exceptions.PlayerException;
 import sk.tsystems.gamestudio.exceptions.ScoreException;
 import sk.tsystems.gamestudio.services.hibernate.GameServiceHibernateImpl;
 import sk.tsystems.gamestudio.services.hibernate.PlayerServiceHibernateImpl;
@@ -23,7 +24,7 @@ import sk.tsystems.stones.core.Field;
  * Servlet implementation class Npuzzle
  */
 @WebServlet("/NPuzzle")
-public class Npuzzle extends HttpServlet {
+public class Npuzzle extends GamesServletServices {
 	private static final long serialVersionUID = 1L;
 	private long startPlayingTime;
 
@@ -90,10 +91,12 @@ public class Npuzzle extends HttpServlet {
 		if (field.isSolved()) {
 			startPlayingTime = (long) session.getAttribute("playTime");
 			long duringTime = System.currentTimeMillis() - startPlayingTime;
-			int time = (int) duringTime / 1000;
+			int time = (100000/((int) duringTime / 1000));
 			out.println("<center><h2>VYHRAL SI</h2>");
-			out.println("<h3>Your score is: " + (100000 / time) + "</h3></center>");
-			addScore((time), request);
+			out.println("<h3>Your score is: " + (time) + "</h3></center>");
+			
+			String gameName = request.getParameter("name");
+			addScore(request, time, gameName);
 			session.removeAttribute("playTime");
 			field = new Field(3, 3);
 			session.setAttribute("fild", field);
@@ -216,25 +219,4 @@ public class Npuzzle extends HttpServlet {
 		doGet(request, response);
 	}
 
-	private void addScore(int time, HttpServletRequest req) {
-		if (req.getSession().getAttribute("user") != null) {
-
-			ScoreServiceHibernateImpl scoreImpl = new ScoreServiceHibernateImpl();
-			Score scoreEntity = new Score();
-			try {
-				scoreEntity.setDate(new Date());
-				scoreEntity.setGame(new GameServiceHibernateImpl().getGameByName("NPuzzle"));
-				scoreEntity.setPlayer(new PlayerServiceHibernateImpl()
-						.getPlayerFromDB((String) req.getSession().getAttribute("user")));
-				scoreEntity.setScore(100000 / time);
-				scoreImpl.add(scoreEntity);
-			} catch (GameException e1) {
-				e1.printStackTrace();
-			} catch (ScoreException e) {
-
-				e.printStackTrace();
-			}
-
-		}
-	}
 }

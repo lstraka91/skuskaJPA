@@ -13,6 +13,7 @@ import sk.tsystems.gamestudio.entity.Rating;
 import sk.tsystems.gamestudio.entity.RatingId;
 import sk.tsystems.gamestudio.entity.Score;
 import sk.tsystems.gamestudio.exceptions.GameException;
+import sk.tsystems.gamestudio.exceptions.PlayerException;
 import sk.tsystems.gamestudio.exceptions.RatingException;
 import sk.tsystems.gamestudio.exceptions.ScoreException;
 import sk.tsystems.gamestudio.games.GameInterface;
@@ -87,16 +88,18 @@ public class ConsoleUIHibernate implements ServiceInterface {
 	private void addHighScore(int highScore, String gameName, String playerName) throws GameException {
 		Score skore = new Score();
 		if (highScore > 0) {
+			try {
 			game = gameImpl.getGameByName(gameName);
 			player = playerImpl.getPlayerFromDB(playerName);
 			skore.setGame(game);
 			skore.setPlayer(player);
 			skore.setScore(1000 / highScore);
 			skore.setDate(new Date());
-			try {
 				skoreImpl.add(skore);
 			} catch (ScoreException e) {
 				System.err.println("Error during save the score ");
+			} catch (PlayerException e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -159,7 +162,14 @@ public class ConsoleUIHibernate implements ServiceInterface {
 	}
 
 	private Player getPlayer(String playerName) {
-		return new PlayerServiceHibernateImpl().getPlayerFromDB(playerName);
+		PlayerServiceHibernateImpl playerService = new PlayerServiceHibernateImpl();
+		try {
+			return playerService.getPlayerFromDB(playerName);
+		} catch (PlayerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	private Game getGame(String gameName) throws GameException {
