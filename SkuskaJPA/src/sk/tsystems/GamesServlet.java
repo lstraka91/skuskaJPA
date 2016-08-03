@@ -84,7 +84,8 @@ public class GamesServlet extends HttpServlet {
 					addNewRating(request, session);
 				} else if ("delete".equals(request.getParameter("delete"))) {
 					int id = Integer.parseInt(request.getParameter("id"));
-					if(session.getAttribute("user")==request.getParameter("comentUser")){
+					request.removeAttribute("comentDelete");
+					if(session.getAttribute("user").equals(request.getParameter("comentUser"))){
 						
 					deleteComment(id);
 					
