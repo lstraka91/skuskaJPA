@@ -53,21 +53,21 @@ public class IndexServlet extends HttpServlet {
 				game.setGameName("FindTheMouse");
 				game.setGameURL("/findTheMouse");
 				new GameServiceHibernateImpl().add(game);
-			} else if (minesweeper == null) {
+			} if (minesweeper == null) {
 				Game game = new Game();
 				game.setAuthor("Straka Lukas");
 				game.setDateCreated(new Date());
 				game.setGameName("Minesweeper");
 				game.setGameURL("/mines");
 				new GameServiceHibernateImpl().add(game);
-			} else if (npuzzle == null) {
+			} if (npuzzle == null) {
 				Game game = new Game();
 				game.setAuthor("Straka Lukas");
 				game.setDateCreated(new Date());
 				game.setGameName("NPuzzle");
 				game.setGameURL("/nPuzzle");
 				new GameServiceHibernateImpl().add(game);
-			} else if (guessNumber == null) {
+			} if (guessNumber == null) {
 				Game game = new Game();
 				game.setAuthor("Straka Lukas");
 				game.setDateCreated(new Date());

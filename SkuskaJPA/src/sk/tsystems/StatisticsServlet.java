@@ -24,20 +24,50 @@ public class StatisticsServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		statisticsServiceImpl = new StatisticsHibernateImpl();
+		if (statisticsServiceImpl.commentsCount() != null) {
+			request.setAttribute("commentsCount", statisticsServiceImpl.commentsCount());
+		}
+		if (statisticsServiceImpl.countOfGames() != 0) {
+			request.setAttribute("countOfGames", statisticsServiceImpl.countOfGames());
+		}
+		if (statisticsServiceImpl.countOfPlayers() != 0) {
+			request.setAttribute("countOfPlayers", statisticsServiceImpl.countOfPlayers());
+		}
+		if (statisticsServiceImpl.getCountRatings() != null) {
+			request.setAttribute("getCountRatings", statisticsServiceImpl.getCountRatings());
+		}
+		if (statisticsServiceImpl.countOfTotalPlayedGames() != 0) {
+			request.setAttribute("countOfTotalPlayedGames", statisticsServiceImpl.countOfTotalPlayedGames());
 
-		request.setAttribute("commentsCount", statisticsServiceImpl.commentsCount());
-		request.setAttribute("countOfGames", statisticsServiceImpl.countOfGames());
-		request.setAttribute("countOfPlayers", statisticsServiceImpl.countOfPlayers());
-		request.setAttribute("countOfTotalPlayedGames", statisticsServiceImpl.countOfTotalPlayedGames());
-		request.setAttribute("gameCountScore", statisticsServiceImpl.gameCountScore());
-		request.setAttribute("getCountRatings", statisticsServiceImpl.getCountRatings());
-		request.setAttribute("getFavoriteGame", statisticsServiceImpl.getFavoriteGame().getGame());
-		request.setAttribute("getMostCommentedGame", statisticsServiceImpl.getMostCommentedGame().getGameName());
-		request.setAttribute("getPlayerGambler", statisticsServiceImpl.getPlayerGambler().getPlayer());
-		request.setAttribute("getEachPlayerPlays", statisticsServiceImpl.getEachPlayerCountScore());
-		request.setAttribute("countOfRating", statisticsServiceImpl.countOfRatings());
-		request.setAttribute("countOfComments", statisticsServiceImpl.countOfComments());
-		
+		}
+		if (statisticsServiceImpl.gameCountScore() != null) {
+			request.setAttribute("gameCountScore", statisticsServiceImpl.gameCountScore());
+		}
+		if (statisticsServiceImpl.getFavoriteGame() != null) {
+			request.setAttribute("getFavoriteGame", statisticsServiceImpl.getFavoriteGame().getGame());
+
+		}
+		if (statisticsServiceImpl.getMostCommentedGame() != null) {
+			request.setAttribute("getMostCommentedGame", statisticsServiceImpl.getMostCommentedGame().getGameName());
+
+		}
+		if (statisticsServiceImpl.getPlayerGambler() != null) {
+
+			request.setAttribute("getPlayerGambler", statisticsServiceImpl.getPlayerGambler().getPlayer());
+		}
+		if (statisticsServiceImpl.getEachPlayerCountScore() != null) {
+			request.setAttribute("getEachPlayerPlays", statisticsServiceImpl.getEachPlayerCountScore());
+
+		}
+		if (statisticsServiceImpl.countOfRatings() != 0) {
+			request.setAttribute("countOfRating", statisticsServiceImpl.countOfRatings());
+
+		}
+		if (statisticsServiceImpl.countOfComments() != 0) {
+			request.setAttribute("countOfComments", statisticsServiceImpl.countOfComments());
+
+		}
+
 		request.getRequestDispatcher("/WEB-INF/jsp/statistic.jsp").forward(request, response);
 	}
 

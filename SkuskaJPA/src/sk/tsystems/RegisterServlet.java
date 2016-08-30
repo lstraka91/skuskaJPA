@@ -42,13 +42,13 @@ public class RegisterServlet extends HttpServlet {
 		 try {
 			playerService.addNewPlayer(player);
 			request.getSession().setAttribute("user", player.getName());
-			response.sendRedirect("/GameCenter/games");
+			response.sendRedirect("games");
 			return;
 		} catch (Exception e) {
 			
 			e.printStackTrace();
 		}
-		 response.sendRedirect("/GameCenter/register?error='invalid'");
+		 response.sendRedirect("register?error='invalid'");
 		 
 		 
 	}

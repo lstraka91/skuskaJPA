@@ -49,7 +49,7 @@
 
 		<div class="row">
 			<div class="center-form panel">
-				<form method="post" action="/GameCenter/login">
+				<form method="post" action="login">
 					<div class="panel-body">
 						<h2 class="text-center">Please log in</h2>
 
@@ -69,9 +69,9 @@
 
 							<input type="submit" value="Login"
 								class="btn btn-lg btn-block btn-success" /> <a
-								href="/GameCenter/register"
+								href="register"
 								class="btn btn-lg btn-block btn-primary">Register</a> <a
-								href="/GameCenter/games"
+								href="games"
 								class="btn btn-lg btn-block btn-primary">Continue as guest</a>
 
 

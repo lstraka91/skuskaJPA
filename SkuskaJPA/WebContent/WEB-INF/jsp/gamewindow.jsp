@@ -115,7 +115,7 @@
 					<span class="glyphicon glyphicon-exclamation-sign"
 						aria-hidden="true"></span> <span class="sr-only">Info:</span> If
 					you want to add comment or rating you have to <a
-						href="/GameCenter/loginUser">log in !!</a>
+						href="loginUser">log in !!</a>
 				</div>
 			</c:otherwise>
 		</c:choose>

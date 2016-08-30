@@ -43,7 +43,7 @@
 		</c:if>
 		<div class="row">
 			<div class="center-form panel">
-				<form method="post" action="/GameCenter/register">
+				<form method="post" action="register">
 					<div class="panel-body">
 						<h2 class="text-center">Registration form</h2>
 
@@ -76,9 +76,9 @@
 							</div>
 							<input type="submit" value="Register user"
 								class="btn btn-lg btn-block btn-success" /> <a
-								href="/GameCenter/loginUser"
+								href="loginUser"
 								class="btn btn-lg btn-block btn-primary">Back to Login</a> <a
-								href="/GameCenter/games"
+								href="games"
 								class="btn btn-lg btn-block btn-primary">Continue without
 								login</a>
 						</center>
