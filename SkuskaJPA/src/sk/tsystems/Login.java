@@ -37,10 +37,10 @@ public class Login extends HttpServlet {
 			 
 			 if(playerList.isEmpty()){
 				 request.setAttribute("error", "DACO NEDOBRE");
-				 response.sendRedirect("/GameCenter/loginUser?error='invalid'");
+				 response.sendRedirect("loginUser?error='invalid'");
 			 }else if (playerList.size()==1){
 				 request.getSession().setAttribute("user", playerList.get(0).getName());
-				 response.sendRedirect("/GameCenter/games");
+				 response.sendRedirect("games");
 								
 			 }
 	}

@@ -36,10 +36,15 @@ public class GameServiceHibernateImpl implements GameService {
 		JpaHelper.beginTransaction();
 		EntityManager em = JpaHelper.getEntityManager();
 		JpaHelper.commitTransaction();
-		Game game =  (Game) em
+		List<Game> game =   em
 				.createQuery("Select g from Game g where g.name=:gameName")
-				.setParameter("gameName", name).getSingleResult();
+				.setParameter("gameName", name).getResultList();
 
-		return game;
+		if(game.isEmpty()){
+			return null;
+		}else{
+			
+			return game.get(0);
+		}
 	}
 }

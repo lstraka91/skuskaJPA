@@ -49,24 +49,21 @@ public class RatingServiceHibernateImpl implements RatingService {
 	@Override
 	public List<Rating> findRatingForGame(String game) throws RatingException {
 		GameServiceHibernateImpl gsimpl = new GameServiceHibernateImpl();
-		Game gameFromName=null;
+		Game gameFromName = null;
 		try {
-			gameFromName=gsimpl.getGameByName(game);
+			gameFromName = gsimpl.getGameByName(game);
 		} catch (GameException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
 		JpaHelper.beginTransaction();
 		EntityManager em = JpaHelper.getEntityManager();
-		
+
 		JpaHelper.commitTransaction();
-		return em
-				.createQuery(
-						"Select r from Rating r JOIN r.ratingId h where h.game=:gameId")
+		return em.createQuery("Select r from Rating r JOIN r.ratingId h where h.game=:gameId")
 				.setParameter("gameId", gameFromName.getIdentGame()).getResultList();
-	
+
 	}
 
 	public int selectRejting(Rating rating) {
@@ -74,8 +71,8 @@ public class RatingServiceHibernateImpl implements RatingService {
 		EntityManager em = JpaHelper.getEntityManager();
 		JpaHelper.commitTransaction();
 		ArrayList<Rating> ratingList = (ArrayList<Rating>) em
-				.createQuery("Select r from Rating r where r.ratingId=:rid ")
-				.setParameter("rid", rating.getRatingId()).getResultList();
+				.createQuery("Select r from Rating r where r.ratingId=:rid ").setParameter("rid", rating.getRatingId())
+				.getResultList();
 		System.out.println(ratingList);
 		System.out.println(ratingList.size());
 		return ratingList.size();
@@ -86,8 +83,8 @@ public class RatingServiceHibernateImpl implements RatingService {
 		EntityTransaction updt = em.getTransaction();
 		updt.begin();
 		em.createQuery("update Rating set rating=:rating where ratingId=:ratingId")
-				.setParameter("rating", rating.getRating())
-				.setParameter("ratingId", rating.getRatingId()).executeUpdate();
+				.setParameter("rating", rating.getRating()).setParameter("ratingId", rating.getRatingId())
+				.executeUpdate();
 		updt.commit();
 	}
 
@@ -95,18 +92,15 @@ public class RatingServiceHibernateImpl implements RatingService {
 		JpaHelper.beginTransaction();
 		EntityManager em = JpaHelper.getEntityManager();
 		List<Long> countList = em
-				.createQuery(
-						"select COUNT(*) from Rating r join r.ratingId h  where h.game=:gameName group by h.game")
-				.setParameter("gameName", rating.getRatingId().getGameId())
-				.getResultList();
+				.createQuery("select COUNT(*) from Rating r join r.ratingId h  where h.game=:gameName group by h.game")
+				.setParameter("gameName", rating.getRatingId().getGameId()).getResultList();
 		JpaHelper.commitTransaction();
 
 		JpaHelper.beginTransaction();
 		List<Double> avgList = em
 				.createQuery(
 						"select round(avg(r.rating),2) from Rating r join r.ratingId h  where h.game=:gameName group by h.game")
-				.setParameter("gameName", rating.getRatingId().getGameId())
-				.getResultList();
+				.setParameter("gameName", rating.getRatingId().getGameId()).getResultList();
 		JpaHelper.commitTransaction();
 		double avg = 0;
 		long count = 0;
@@ -119,7 +113,5 @@ public class RatingServiceHibernateImpl implements RatingService {
 		setCount((int) count);
 
 	}
-	
-
 
 }

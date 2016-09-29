@@ -29,7 +29,7 @@ public class Logout extends HttpServlet {
 		if(request.getSession().getAttribute("user")!=null){
 			request.getSession().removeAttribute("user");
 		}
-		response.sendRedirect("/GameCenter/games");
+		response.sendRedirect("games");
 	}
 
 	/**

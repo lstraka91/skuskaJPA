@@ -73,8 +73,6 @@ public class GamesServlet extends HttpServlet {
 			if ("play".equals(action) && request.getParameter("name") != null) {
 				String gameName = request.getParameter("name");
 
-				// getRatings(request, gameName);
-
 				if ("addComment".equals(request.getParameter("addComment"))
 						&& !(request.getParameter("comment").trim().isEmpty())) {
 
@@ -110,7 +108,6 @@ public class GamesServlet extends HttpServlet {
 			}
 
 		} else if (session.getAttribute("user") == null) {
-			// response.sendRedirect("/GameCenter/loginUser");
 			if ("play".equals(action) && request.getParameter("name") != null) {
 				String gameName = request.getParameter("name");
 
@@ -234,5 +231,4 @@ public class GamesServlet extends HttpServlet {
 		em.remove(commentToDelete);
 		em.getTransaction().commit();
 	}
-
 }
