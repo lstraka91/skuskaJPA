@@ -55,16 +55,16 @@
 
 						<center>
 							<div class="form-group">
-
+								<div id="failedLogin"></div>
 								<input type="text" name="userName" value=""
 									placeholder="Insert your username here"
-									class="form-control input-lg" required autofocus/>
+									class="form-control input-lg" required autofocus />
 							</div>
 							<div class="form-group">
 
 								<input type="password" name="password" value=""
 									placeholder="Insert your password here"
-									class="form-control input-lg" requried/>
+									class="form-control input-lg" requried />
 							</div>
 
 							<input type="submit" value="Login"
